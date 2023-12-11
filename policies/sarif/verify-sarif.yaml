@@ -30,4 +30,4 @@ attest:
                 # - '{{define `list`}} {{join . `, `}}{{end}}'
               ignore: []
               max_allowed: 1
-            path: policies/sarif/verify-sarif.rego
+            path: verify-sarif.rego

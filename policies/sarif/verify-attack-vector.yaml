@@ -18,4 +18,4 @@ attest:
               attack_vectors:
                 - "stack buffer overflow"
               violations_threshold: 0
-            path: policies/sarif/verify-attack-vector.rego
+            path: verify-attack-vector.rego

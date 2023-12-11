@@ -15,4 +15,4 @@ attest:
           rego:
             args:
               max_days : 30
-            path: policies/sboms/fresh-sbom.rego
+            path: fresh-sbom.rego

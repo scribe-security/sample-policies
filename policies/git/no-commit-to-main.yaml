@@ -13,4 +13,4 @@ attest:
           match:
             target_type: git
           rego:
-            path: policies/git/no-commit-to-main.rego
+            path: no-commit-to-main.rego

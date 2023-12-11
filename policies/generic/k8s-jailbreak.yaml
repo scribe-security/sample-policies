@@ -14,5 +14,5 @@ attest:
             target_type: generic
             predicate_type: http://scribesecurity.com/evidence/generic/v0.1
           rego:
-            path: policies/generic/k8s-jailbreak.rego
+            path: k8s-jailbreak.rego
 

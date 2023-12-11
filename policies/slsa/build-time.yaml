@@ -22,4 +22,4 @@ attest:
                 - "Tuesday"
                 - "Wednesday"
                 - "Thursday"
-            path: policies/slsa/build-time.rego
+            path: build-time.rego

@@ -13,5 +13,5 @@ attest:
           match:
             target_type: git
           rego:
-            path: policies/git/no-unsigned-commits.rego
+            path: no-unsigned-commits.rego
 

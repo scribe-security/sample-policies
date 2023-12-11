@@ -16,4 +16,4 @@ attest:
             args:
               byproducts:
                 - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230
-            path: policies/slsa/verify-byproducts.rego
+            path: verify-byproducts.rego

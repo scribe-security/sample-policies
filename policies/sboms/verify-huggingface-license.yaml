@@ -15,4 +15,4 @@ attest:
               licenses:
                 - "mit"
                 - apache"
-            path: policies/sboms/verify-hf-license.rego    
+            path: verify-hf-license.rego

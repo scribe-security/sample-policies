@@ -18,5 +18,5 @@ attest:
                 - "myunknownfield"
                 - "predicate/runDetails/builder/builderDependencies"
               violations_threshold: 1
-            path: policies/slsa/field-exists.rego
+            path: field-exists.rego
 

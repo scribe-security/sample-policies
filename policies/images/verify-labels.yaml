@@ -17,4 +17,4 @@ attest:
               labels:
                 - label: "org.opencontainers.image.version"
                   value: "22.04"
-            path: policies/images/verify-labels.rego
+            path: verify-labels.rego

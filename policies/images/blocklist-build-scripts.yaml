@@ -16,4 +16,4 @@ attest:
             args:
               blocklist: 
                 - curl
-            path: policies/images/blocklist-build-scripts.rego
+            path: blocklist-build-scripts.rego

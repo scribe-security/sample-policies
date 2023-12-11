@@ -18,4 +18,4 @@ attest:
               rule_ids:
                 - "use-after-free"
               violations_threshold: 2
-            path: policies/sarif/verify-semgrep-report.rego
+            path: verify-semgrep-report.rego

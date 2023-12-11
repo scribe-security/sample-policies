@@ -18,5 +18,5 @@ attest:
                 - GPL
                 - MPL
               blocklisted_limit : 10
-            path: policies/sboms/banned-licenses.rego
+            path: banned-licenses.rego
 

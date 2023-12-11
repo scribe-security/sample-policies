@@ -15,4 +15,4 @@ attest:
           rego:
             args:
               max_size: 77808811
-            path: policies/images/forbid-large-images.rego
+            path: forbid-large-images.rego

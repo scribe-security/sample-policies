@@ -13,5 +13,5 @@ attest:
           match:
             target_type: image
           rego:
-            path: policies/sboms/complete-licenses.rego
+            path: complete-licenses.rego
 

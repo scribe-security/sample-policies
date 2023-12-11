@@ -18,4 +18,4 @@ attest:
                 - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
                 - "log4j"
               blocklisted_limit: 0
-            path: policies/sboms/blocklist-packages.rego
+            path: blocklist-packages.rego
