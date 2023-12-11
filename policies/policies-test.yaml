@@ -6,7 +6,7 @@ attest:
       - name: git-policies
         enable: true
         modules:
-          - name: git-coding-permissions
+          - name: coding-permissions
             type: verify-artifact
             enable: true
             input:
@@ -15,47 +15,49 @@ attest:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
-                - none
+                - flags
               format: "attest-cyclonedx-json"
               match:
                 target_type: git
               rego:
                 args:
                   ids:
-                    - "viktor@scribesecurity.com"
+                    - "mystery@scribesecurity.com"
                   files:
                     - "Dockerfile"
-                path: /home/viktor/scribe/sample-policies/policies/git/coding-permissions.rego
-          - name: git-no-commits-to-main
+                path: git/coding-permissions.rego
+          - name: no-commits-to-main
             type: verify-artifact
             enable: true
+            level: "note"
             input:
               signed: true
               context-group:
-                - none
+                - flags
               format: "attest-cyclonedx-json"
               match:
                 target_type: git
               rego:
-                path: /home/viktor/scribe/sample-policies/policies/git/no-commit-to-main.rego
-          - name: git-no-unsigned-commits
+                path: git/no-commit-to-main.rego
+          - name: no-unsigned-commits
             type: verify-artifact
             enable: true
+            level: "warning"
             input:
               signed: true
               context-group:
-                - none
+                - flags
               format: "attest-cyclonedx-json"
               match:
                 target_type: git
               rego:
-                path: /home/viktor/scribe/sample-policies/policies/git/no-unsigned-commits.rego
+                path: git/no-unsigned-commits.rego
 ### Policy #2
 ### SBOMs
       - name: sbom-policies
         enable: true
         modules:
-          - name: sbom-required-packages
+          - name: required-packages
             type: verify-artifact
             enable: true
             input:
@@ -73,8 +75,8 @@ attest:
                   required_pkgs:
                     - "gpgv@2.2.27-3ubuntu2.1"
                   violations_limit: 0
-                path: /home/viktor/scribe/sample-policies/policies/sboms/required-packages.rego
-          - name: sbom-banned-licenses
+                path: sboms/required-packages.rego
+          - name: banned-licenses
             type: verify-artifact
             enable: true
             input:
@@ -92,8 +94,8 @@ attest:
                   blocklist: 
                     - GPL
                   blocklisted_limit : 199
-                path: /home/viktor/scribe/sample-policies/policies/sboms/banned-licenses.rego
-          - name: sbom-blocklist-packages
+                path: sboms/banned-licenses.rego
+          - name: blocklist-packages
             type: verify-artifact
             enable: true
             input:
@@ -109,8 +111,8 @@ attest:
                     - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
                     - "log4j"
                   blocklisted_limit : 1
-                path: /home/viktor/scribe/sample-policies/policies/sboms/blocklist-packages.rego
-          - name: sbom-complete-licenses
+                path: sboms/blocklist-packages.rego
+          - name: complete-licenses
             type: verify-artifact
             enable: true
             input:
@@ -121,8 +123,8 @@ attest:
               match:
                 target_type: image
               rego:
-                path: /home/viktor/scribe/sample-policies/policies/sboms/complete-licenses.rego
-          - name: sbom-fresh
+                path: sboms/complete-licenses.rego
+          - name: fresh-sbom
             type: verify-artifact
             enable: true
             input:
@@ -135,13 +137,13 @@ attest:
               rego:
                 args:
                   max_days: 30
-                path: /home/viktor/scribe/sample-policies/policies/sboms/fresh-sbom.rego
+                path: sboms/fresh-sbom.rego
 ### Policy #3
 ### Images
       - name: image-policies
         enable: true
         modules:
-          - name: image-blocklist-build-scripts
+          - name: blocklist-build-scripts
             type: verify-artifact
             enable: true
             input:
@@ -155,8 +157,8 @@ attest:
                 args:
                   blocklist:
                     - curl
-                path: /home/viktor/scribe/sample-policies/policies/images/blocklist-build-scripts.rego
-          - name: image-forbid-large-images
+                path: images/blocklist-build-scripts.rego
+          - name: forbid-large-images
             type: verify-artifact
             enable: true
             input:
@@ -169,8 +171,8 @@ attest:
               rego:
                 args:
                   max_size: 77819980
-                path: /home/viktor/scribe/sample-policies/policies/images/forbid-large-images.rego
-          - name: image-fresh
+                path: images/forbid-large-images.rego
+          - name: fresh-image
             type: verify-artifact
             enable: true
             input:
@@ -183,8 +185,8 @@ attest:
               rego:
                 args:
                   max_days: 30
-                path: /home/viktor/scribe/sample-policies/policies/images/fresh-image.rego
-          - name: image-restrict-shell-entrypoint
+                path: images/fresh-image.rego
+          - name: restrict-shell-entrypoint
             type: verify-artifact
             enable: true
             input:
@@ -196,8 +198,8 @@ attest:
                 target_type: image
               rego:
                 args:
-                path: /home/viktor/scribe/sample-policies/policies/images/restrict-shell-entrypoint.rego
-          - name: image-verify-labels
+                path: images/restrict-shell-entrypoint.rego
+          - name: verify-labels
             type: verify-artifact
             enable: true
             input:
@@ -212,13 +214,13 @@ attest:
                   labels:
                     - label: "org.opencontainers.image.version"
                       value: "22.04"
-                path: /home/viktor/scribe/sample-policies/policies/images/verify-labels.rego
+                path: images/verify-labels.rego
 ### Policy #4
 ### SARIF
       - name: sarif-policies
         enable: true
         modules:
-          - name: trivy-check-vulnerabilities
+          - name: check-vulnerabilities
             type: verify-artifact
             enable: true
             input:
@@ -240,8 +242,8 @@ attest:
                   rule_ids: []
                   ignore: []
                   max_allowed: 1000
-                path: /home/viktor/scribe/sample-policies/policies/sarif/verify-sarif.rego
-          - name: trivy-iac-errors
+                path: sarif/verify-sarif.rego
+          - name: iac-errors
             type: verify-artifact
             enable: true
             input:
@@ -255,8 +257,8 @@ attest:
               rego:
                 args:
                   violations_threshold: 0
-                path: /home/viktor/scribe/sample-policies/policies/sarif/report-iac-errors.rego
-          - name: trivy-attack-vector
+                path: sarif/report-iac-errors.rego
+          - name: attack-vector
             type: verify-artifact
             enable: true
             input:
@@ -272,13 +274,13 @@ attest:
                   attack_vectors:
                     - "stack buffer overflow"
                   violations_threshold: 0
-                path: /home/viktor/scribe/sample-policies/policies/sarif/verify-attack-vector.rego
+                path: sarif/verify-attack-vector.rego
 ### Policy #5
 ### SLSA
       - name: slsa-policies
         enable: true
         modules:
-          - name: slsa-banned-builder-deps
+          - name: banned-builder-deps
             type: verify-artifact
             enable: true
             input:
@@ -293,8 +295,8 @@ attest:
                   blocklist:
                   - name: "valint"
                     version: "0.4.0"
-                path: /home/viktor/scribe/sample-policies/policies/slsa/banned-builder-deps.rego
-          - name: slsa-build-time
+                path: slsa/banned-builder-deps.rego
+          - name: build-time
             type: verify-artifact
             enable: true
             input:
@@ -314,8 +316,8 @@ attest:
                     - "Tuesday"
                     - "Wednesday"
                     - "Thursday"
-                path: /home/viktor/scribe/sample-policies/policies/slsa/build-time.rego
-          - name: slsa-field-exists
+                path: slsa/build-time.rego
+          - name: field-exists
             type: verify-artifact
             enable: true
             input:
@@ -330,8 +332,8 @@ attest:
                   paths:
                     - "predicate/runDetails/builder/builderDependencies"
                   violations_threshold: 0
-                path: /home/viktor/scribe/sample-policies/policies/slsa/field-exists.rego
-          - name: slsa-verify-builder
+                path: slsa/field-exists.rego
+          - name: verify-builder
             type: verify-artifact
             enable: true
             input:
@@ -344,8 +346,8 @@ attest:
               rego:
                 args:
                   id: "local"
-                path: /home/viktor/scribe/sample-policies/policies/slsa/verify-builder.rego
-          - name: slsa-verify-byproducts
+                path: slsa/verify-builder.rego
+          - name: verify-byproducts
             type: verify-artifact
             enable: true
             input:
@@ -359,4 +361,4 @@ attest:
                 args:
                   byproducts:
                     - 256d88da41857db513b95b50ba9a9b28491b58c954e25477d5dad8abb465430b
-                path: /home/viktor/scribe/sample-policies/policies/slsa/verify-byproducts.rego
+                path: slsa/verify-byproducts.rego
