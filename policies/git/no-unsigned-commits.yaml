@@ -1,17 +1,17 @@
-attest:
-  cocosign:
-    policies:
-    - name: git-policy
-      enable: true
-      modules:
-      - name: no-unsigned-commits
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: git
-          rego:
-            path: no-unsigned-commits.rego
+name: git-policies
+enable: true
+modules:
+- name: no-unsigned-commits
+  type: verify-artifact
+  enable: true
+  level: "warning"
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    context-group:
+      - flags
+    match:
+      target_type: git
+    rego:
+      path: no-unsigned-commits.rego
 

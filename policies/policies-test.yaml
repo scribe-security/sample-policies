@@ -1,57 +1,60 @@
+scribe:
+  auth:
+    login-url: https://scribe-hub-dev.us.auth0.com
+    grant-type: client_credentials
+    enable: true
+    audience: api.dev.scribesecurity.com
+    client-id: "1FcCB0ywsJ9LCHC3Nt0P4kyRrTvzenZ8"
+    client-secret: "TsVsLJXmSAog3eTZvIwEjkk0xoUmp4FhOTfx-elWQ0kiH8CyY5xkP8UqWaPqht-_"
+  url: https://airflow.dev.scribesecurity.com
+  enable: true
 attest:
   cocosign:
     policies:
 ### Policy #1
 ### GIT
-      - name: git-policies
-        enable: true
-        modules:
-          - name: coding-permissions
-            type: verify-artifact
-            enable: true
-            input:
-              signed: true
-              identity:
-                common-names:
-                  - EvidencePolicyResults4
-              context-group:
-                - flags
-              format: "attest-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                args:
-                  ids:
-                    - "mystery@scribesecurity.com"
-                  files:
-                    - "Dockerfile"
-                path: git/coding-permissions.rego
-          - name: no-commits-to-main
-            type: verify-artifact
-            enable: true
-            level: "note"
-            input:
-              signed: true
-              context-group:
-                - flags
-              format: "attest-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                path: git/no-commit-to-main.rego
-          - name: no-unsigned-commits
-            type: verify-artifact
-            enable: true
-            level: "warning"
-            input:
-              signed: true
-              context-group:
-                - flags
-              format: "attest-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                path: git/no-unsigned-commits.rego
+      # - name: git-policies
+      #   enable: true
+      #   modules:
+          # - name: coding-permissions
+          #   enable: true
+          #   template:
+          #     name: templates/coding-permission@v1
+          #     with:
+          #       evidence:
+          #         product-key: my_product
+          #         target_type: git
+          #       args:
+          #         ids:
+          #           - "mystery@scribesecurity.com"
+          #         files:
+          #           - "Dockerfile"
+          # - name: no-commits-to-main
+          #   type: verify-artifact
+          #   enable: true
+          #   level: "note"
+          #   input:
+          #     signed: true
+          #     context-group:
+          #       - flags
+          #     format: "attest-cyclonedx-json"
+          #     match:
+          #       target_type: git
+          #     rego:
+          #       path: git/no-commit-to-main.rego
+          # - name: no-unsigned-commits
+          #   type: verify-artifact
+          #   enable: true
+          #   level: "warning"
+          #   input:
+          #     signed: true
+          #     context-group:
+          #       - flags
+          #     format: "attest-cyclonedx-json"
+          #     match:
+          #       target_type: git
+          #     rego:
+          #       path: git/no-unsigned-commits.rego
 ### Policy #2
 ### SBOMs
       - name: sbom-policies

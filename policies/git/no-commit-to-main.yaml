@@ -1,16 +1,14 @@
-attest:
-  cocosign:
-    policies:
-    - name: git-policy
-      enable: true
-      modules:
-      - name: no-main
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: git
-          rego:
-            path: no-commit-to-main.rego
+name: git-policies
+enable: true
+modules:
+- name: no-commits-to-main
+  type: verify-artifact
+  enable: true
+  level: "note"
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    match:
+      target_type: git
+    rego:
+      path: no-commit-to-main.rego

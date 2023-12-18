@@ -1,28 +1,27 @@
-attest:
-  cocosign:
-    policies:
-    - name: git-policy
-      enable: true
-      modules:
-      - name: coding-permissions
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: '{{ .Context.content_type }}'
-          match:
-            target_type: git
-            git_url: "https://github.com/scribe-security/testing_mock_repo.git"
-            git_branch: "master"
-            predicate_type: '{{ .Context.predicate_type }}'
-          rego:
-            args:
-              ids:
-                - "@golang.com"
-                - "@golang.org"
-                # - '{{.Args.EMAIL}}'
-              files:
-                - "a.txt"
-                - "jenkins_k8s/scripts/kaniko_config.sh"
-            path: coding-permissions.rego
+name: git-policies
+enable: true
+modules:
+- name: coding-permissions
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    identity:
+      common-names:
+        - EvidencePolicyResults4
+    context-group:
+      - flags
+    format: "attest-cyclonedx-json"
+    match:
+      target_type: git
+    rego:
+      args:
+        ids:
+          - "@golang.com"
+          - "@golang.org"
+          # - '{{.Args.EMAIL}}'
+        files:
+          - "a.txt"
+          # - "jenkins_k8s/scripts/kaniko_config.sh"
+      path: coding-permissions.rego
 
