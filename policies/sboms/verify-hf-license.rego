@@ -11,7 +11,7 @@ verify = v {
 		"allow": allow,
 		"violation": {
 			"type": "Huggingface License Violation",
-			"details": json.marshal(hf_url),
+			"details": [{"hf_url": json.marshal(hf_url)}],
 		},
 		"short_description": short_description,
 		"summary": [{
