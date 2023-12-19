@@ -1,0 +1,20 @@
+# name: verify-semgrep-report
+enable: true
+modules:
+- name: verify-semgrep-report
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-generic
+    context-group:
+      - flags
+    match:
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/trivy/sarif/v2.1.0
+    rego:
+      args:
+        rule_ids:
+          - "use-after-free"
+        violations_threshold: 2
+      path: ../../policies/sarif/verify-semgrep-report.rego
