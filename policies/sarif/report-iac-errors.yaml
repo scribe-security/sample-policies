@@ -1,19 +1,18 @@
-attest:
-  cocosign:
-    policies:
-    - name: verify-attack-vector
-      enable: true
-      modules:
-      - name: verify-attack-vector
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-generic
-          match:
-            target_type: generic
-            predicate_type: http://sarif
-          rego:
-            args:
-              violations_threshold: 0
-            path: report-iac-errors.rego
+# name: verify-attack-vector
+enable: true
+modules:
+- name: verify-attack-vector
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-generic
+    context-group:
+      - flags
+    match:
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+    rego:
+      args:
+        violations_threshold: 0
+      path: report-iac-errors.rego

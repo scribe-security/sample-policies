@@ -1,4 +1,4 @@
-name: git-policies
+# name: git-policies
 enable: true
 modules:
 - name: no-unsigned-commits

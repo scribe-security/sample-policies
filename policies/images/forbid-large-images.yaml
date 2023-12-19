@@ -1,18 +1,17 @@
-attest:
-  cocosign:
-    policies:
-    - name: image-policy
-      enable: true
-      modules:
-      - name: large-image
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            args:
-              max_size: 77808811
-            path: forbid-large-images.rego
+# name: image-policy
+enable: true
+modules:
+- name: large-image
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    context-group:
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        max_size: 77819980
+      path: forbid-large-images.rego

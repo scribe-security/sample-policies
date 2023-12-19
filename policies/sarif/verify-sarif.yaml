@@ -1,33 +1,32 @@
-attest:
-  cocosign:
-    policies:
-    - name: sarif-policy
-      enable: true
-      modules:
-      - name: sarif-policy
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: '{{ .Context.content_type }}'
-          match:
-            target_type: '{{ .Context.target_type }}'
-            predicate_type: '{{ .Context.predicate_type }}'
-          rego:
-            args:
-              rule_level:
-                - '{{ .Args.Error }}'
-                - '{{ .Args.Warning }}'
-                - '{{ .Args.Note }}'
-                - '{{ .Args.None }}'
-              precision: []
-              rule_ids: #'{{block `list` .}}{{`[`}}{{printf `%v` .}}{{`]`}}{{end}}'
-                - '{{ .Args.CVE_1 }}'
-                - '{{ .Args.CVE_2 }}'
-                - '{{ .Args.CVE_3 }}'
-                - '{{ .Args.CVE_4 }}'
-                # - '{{block `list` .}}{{range .}}{{.}}{{end}}{{end}}'
-                # - '{{define `list`}} {{join . `, `}}{{end}}'
-              ignore: []
-              max_allowed: 1
-            path: verify-sarif.rego
+# name: sarif-policy
+enable: true
+modules:
+- name: sarif-policy
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-generic
+    match:
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+    rego:
+      args:
+        rule_level:
+          - error
+          # - '{{ .Args.Error }}'
+          # - '{{ .Args.Warning }}'
+          # - '{{ .Args.Note }}'
+          # - '{{ .Args.None }}'
+        precision: []
+        rule_ids: #'{{block `list` .}}{{`[`}}{{printf `%v` .}}{{`]`}}{{end}}'
+          - CVE-2021-3156
+          # - '{{ .Args.CVE_1 }}'
+          # - '{{ .Args.CVE_2 }}'
+          # - '{{ .Args.CVE_3 }}'
+          # - '{{ .Args.CVE_4 }}'
+          # - '{{block `list` .}}{{range .}}{{.}}{{end}}{{end}}'
+          # - '{{define `list`}} {{join . `, `}}{{end}}'
+        ignore: []
+        max_allowed: 1
+      path: verify-sarif.rego

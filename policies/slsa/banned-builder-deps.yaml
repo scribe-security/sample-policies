@@ -1,20 +1,20 @@
-attest:
-  cocosign:
-    policies:
-    - name: slsa-policy
-      enable: true
-      modules:
-      - name: blocklist-builder-dependencies
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-slsa
-          match:
-            target_type: image
-          rego:
-            args:
-              blocklist:
-                - name: "valint"
-            path: banned-builder-deps.rego
+# name: slsa-policy
+enable: true
+modules:
+- name: blocklist-builder-dependencies
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-slsa
+    context-group:
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        blocklist:
+          - name: "valint"
+            version: "0.4.0"
+      path: banned-builder-deps.rego
 

@@ -1,16 +1,15 @@
-attest:
-  cocosign:
-    policies:
-    - name: image-policy
-      enable: true
-      modules:
-      - name: no-shell-access
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            path: restrict-shell-entrypoint.rego
+# name: image-policy
+enable: true
+modules:
+- name: no-shell-access
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    context-group:
+      - flags
+    match:
+      target_type: image
+    rego:
+      path: restrict-shell-entrypoint.rego

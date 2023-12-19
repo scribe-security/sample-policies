@@ -1,22 +1,21 @@
-attest:
-  cocosign:
-    policies:
-    - name: slsa-policy
-      enable: true
-      modules:
-      - name: verify-field-exists
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-slsa
-          match:
-            target_type: image
-          rego:
-            args:
-              paths:
-                - "myunknownfield"
-                - "predicate/runDetails/builder/builderDependencies"
-              violations_threshold: 1
-            path: field-exists.rego
+# name: slsa-policy
+enable: true
+modules:
+- name: verify-field-exists
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-slsa
+    context-group:
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        paths:
+          - "myunknownfield"
+          - "predicate/runDetails/builder/builderDependencies"
+        violations_threshold: 1
+      path: field-exists.rego
 

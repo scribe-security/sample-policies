@@ -1,17 +1,16 @@
-attest:
-  cocosign:
-    policies:
-      - name: my_policy
-        enable: true
-        modules:
-          - name: artifact-signed
-            type: verify-artifact
-            enable: true
-            input:
-              signed: true
-              format: attest-cyclonedx-json
-              identity:
-                emails:
-                  - example@company.com
-              match:
-                target_type: image
+# name: my_policy
+enable: true
+modules:
+  - name: artifact-signed
+    type: verify-artifact
+    enable: true
+    input:
+      signed: true
+      format: attest-cyclonedx-json
+      context-group:
+        - flags
+      identity:
+        common-names:
+          - EvidencePolicyResults4
+      match:
+        target_type: image

@@ -1,18 +1,17 @@
-attest:
-  cocosign:
-    policies:
-    - name: sbom-policy
-      enable: true
-      modules:
-      - name: fresh-sbom
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            args:
-              max_days : 30
-            path: fresh-sbom.rego
+# name: sbom-policy
+enable: true
+modules:
+- name: fresh-sbom
+  type: verify-artifact
+  enable: true
+  input:
+    signed: true
+    format: attest-cyclonedx-json
+    context-group:
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        max_days : 30
+      path: fresh-sbom.rego
