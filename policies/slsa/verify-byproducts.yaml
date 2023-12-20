@@ -5,8 +5,8 @@ modules:
   type: verify-artifact
   enable: true
   input:
-    signed: true
-    format: attest-slsa
+    signed: false
+    format: statement-slsa
     context-group:
       - flags
     match:

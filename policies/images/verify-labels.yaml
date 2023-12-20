@@ -5,8 +5,8 @@ modules:
   type: verify-artifact
   enable: true
   input:
-    signed: true
-    format: attest-cyclonedx-json
+    signed: false
+    format: statement-cyclonedx-json
     context-group:
       - flags
     match:

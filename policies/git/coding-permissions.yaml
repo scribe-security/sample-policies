@@ -5,13 +5,13 @@ modules:
   type: verify-artifact
   enable: true
   input:
-    signed: true
+    signed: false
     identity:
       common-names:
         - EvidencePolicyResults4
     context-group:
       - flags
-    format: "attest-cyclonedx-json"
+    format: "statement-cyclonedx-json"
     match:
       target_type: git
     rego:

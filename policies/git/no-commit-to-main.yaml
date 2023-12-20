@@ -6,8 +6,8 @@ modules:
   enable: true
   level: "note"
   input:
-    signed: true
-    format: attest-cyclonedx-json
+    signed: false
+    format: statement-cyclonedx-json
     match:
       target_type: git
     rego:

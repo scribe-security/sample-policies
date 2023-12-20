@@ -15,14 +15,14 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults41
               context-group:
                 # - env
                 - none
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: git
                 # content_type: "attest-cyclonedx-json"
@@ -41,14 +41,14 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
                 # - env
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
                 # input_name: "localhost:5000/sigstore-local"
@@ -63,14 +63,14 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
                 # - env
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
                 # input_name: "localhost:5000/sigstore-local"
@@ -85,14 +85,14 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults41
               context-group:
                 # - env
                 - flags
-              format: "attest-generic"
+              format: "statement-generic"
               match:
                 target_type: generic
                 predicate_type: http://scribesecurity.com/evidence/generic/v0.1

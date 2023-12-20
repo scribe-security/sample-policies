@@ -1,62 +1,62 @@
 scribe:
   auth:
-    login-url: https://scribe-hub-dev.us.auth0.com
-    grant-type: client_credentials
+    # login-url: https://scribe-hub-dev.us.auth0.com
+    # grant-type: client_credentials
     enable: true
-    audience: api.dev.scribesecurity.com
-    client-id: "1FcCB0ywsJ9LCHC3Nt0P4kyRrTvzenZ8"
-    client-secret: "TsVsLJXmSAog3eTZvIwEjkk0xoUmp4FhOTfx-elWQ0kiH8CyY5xkP8UqWaPqht-_"
-  url: https://airflow.dev.scribesecurity.com
+    # audience: api.dev.scribesecurity.com
+    client-id: {{ .Args.CLIENT_ID }}
+    client-secret: {{ .Args.CLIENT_SECRET }}
+  url: https://api.dev.scribesecurity.com/
   enable: true
 attest:
   cocosign:
     policies:
-### Policy #1
-### GIT
-      # - name: git-policies
-      #   enable: true
-      #   modules:
-          # - name: coding-permissions
-          #   enable: true
-          #   template:
-          #     name: templates/coding-permission@v1
-          #     with:
-          #       evidence:
-          #         product-key: my_product
-          #         target_type: git
-          #       args:
-          #         ids:
-          #           - "mystery@scribesecurity.com"
-          #         files:
-          #           - "Dockerfile"
-          # - name: no-commits-to-main
-          #   type: verify-artifact
-          #   enable: true
-          #   level: "note"
-          #   input:
-          #     signed: true
-          #     context-group:
-          #       - flags
-          #     format: "attest-cyclonedx-json"
-          #     match:
-          #       target_type: git
-          #     rego:
-          #       path: git/no-commit-to-main.rego
-          # - name: no-unsigned-commits
-          #   type: verify-artifact
-          #   enable: true
-          #   level: "warning"
-          #   input:
-          #     signed: true
-          #     context-group:
-          #       - flags
-          #     format: "attest-cyclonedx-json"
-          #     match:
-          #       target_type: git
-          #     rego:
-          #       path: git/no-unsigned-commits.rego
-### Policy #2
-### SBOMs
+## Policy #1
+## GIT
+      - name: git-policies
+        enable: true
+        modules:
+          - name: coding-permissions
+            enable: true
+            template:
+              name: templates/coding-permission@v1
+              with:
+                evidence:
+                  product-key: my_product
+                  target_type: git
+                args:
+                  ids:
+                    - "mystery@scribesecurity.com"
+                  files:
+                    - "Dockerfile"
+          - name: no-commits-to-main
+            type: verify-artifact
+            enable: true
+            level: "note"
+            input:
+              signed: false
+              context-group:
+                - flags
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: git
+              rego:
+                path: git/no-commit-to-main.rego
+          - name: no-unsigned-commits
+            type: verify-artifact
+            enable: true
+            level: "warning"
+            input:
+              signed: false
+              context-group:
+                - flags
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: git
+              rego:
+                path: git/no-unsigned-commits.rego
+## Policy #2
+## SBOMs
       - name: sbom-policies
         enable: true
         modules:
@@ -64,13 +64,13 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -83,13 +83,13 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -102,10 +102,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -119,10 +119,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -131,18 +131,18 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
                 args:
                   max_days: 30
                 path: sboms/fresh-sbom.rego
-### Policy #3
-### Images
+## Policy #3
+## Images
       - name: image-policies
         enable: true
         modules:
@@ -150,10 +150,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -165,10 +165,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -179,10 +179,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -193,10 +193,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -206,10 +206,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-cyclonedx-json"
+              format: "statement-cyclonedx-json"
               match:
                 target_type: image
               rego:
@@ -218,8 +218,8 @@ attest:
                     - label: "org.opencontainers.image.version"
                       value: "22.04"
                 path: images/verify-labels.rego
-### Policy #4
-### SARIF
+## Policy #4
+## SARIF
       - name: sarif-policies
         enable: true
         modules:
@@ -227,13 +227,13 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               identity:
                 common-names:
                   - EvidencePolicyResults4
               context-group:
                 - flags
-              format: "attest-generic"
+              format: "statement-generic"
               match:
                 target_type: generic
                 predicate_type: http://scribesecurity.com/evidence/generic/v0.1
@@ -250,10 +250,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-generic"
+              format: "statement-generic"
               match:
                 target_type: generic
                 predicate_type: http://scribesecurity.com/evidence/generic/v0.1
@@ -265,10 +265,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-generic"
+              format: "statement-generic"
               match:
                 target_type: generic
                 predicate_type: http://scribesecurity.com/evidence/generic/v0.1
@@ -278,8 +278,8 @@ attest:
                     - "stack buffer overflow"
                   violations_threshold: 0
                 path: sarif/verify-attack-vector.rego
-### Policy #5
-### SLSA
+## Policy #5
+## SLSA
       - name: slsa-policies
         enable: true
         modules:
@@ -287,10 +287,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-slsa"
+              format: "statement-slsa"
               match:
                 target_type: image
               rego:
@@ -303,10 +303,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-slsa"
+              format: "statement-slsa"
               match:
                 target_type: image
               rego:
@@ -324,10 +324,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-slsa"
+              format: "statement-slsa"
               match:
                 target_type: image
               rego:
@@ -340,10 +340,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-slsa"
+              format: "statement-slsa"
               match:
                 target_type: image
               rego:
@@ -354,10 +354,10 @@ attest:
             type: verify-artifact
             enable: true
             input:
-              signed: true
+              signed: false
               context-group:
                 - flags
-              format: "attest-slsa"
+              format: "statement-slsa"
               match:
                 target_type: image
               rego:

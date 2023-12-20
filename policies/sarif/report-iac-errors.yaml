@@ -5,8 +5,8 @@ modules:
   type: verify-artifact
   enable: true
   input:
-    signed: true
-    format: attest-generic
+    signed: false
+    format: statement-generic
     context-group:
       - flags
     match:
