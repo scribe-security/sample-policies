@@ -65,9 +65,6 @@ attest:
             enable: true
             input:
               signed: false
-              identity:
-                common-names:
-                  - EvidencePolicyResults4
               context-group:
                 - flags
               format: "statement-cyclonedx-json"
@@ -84,9 +81,6 @@ attest:
             enable: true
             input:
               signed: false
-              identity:
-                common-names:
-                  - EvidencePolicyResults4
               context-group:
                 - flags
               format: "statement-cyclonedx-json"
@@ -228,9 +222,6 @@ attest:
             enable: true
             input:
               signed: false
-              identity:
-                common-names:
-                  - EvidencePolicyResults4
               context-group:
                 - flags
               format: "statement-generic"
