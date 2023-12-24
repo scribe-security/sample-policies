@@ -1,20 +1,22 @@
-# name: verify-semgrep-report
+# name: sarif-policy
 enable: true
 modules:
-- name: verify-semgrep-report
+- name: sarif-policy
   type: verify-artifact
   enable: true
   input:
     signed: false
     format: statement-generic
-    context-group:
-      - flags
     match:
       target_type: generic
       predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
     rego:
       args:
+        rule_level:
+          - error
+        precision: []
         rule_ids:
-          - "use-after-free"
-        violations_threshold: 2
-      path: ../../policies/sarif/verify-semgrep-report.rego
+          - CVE-2021-3156
+        ignore: []
+        max_allowed: 1
+      path: ../verify-sarif.rego

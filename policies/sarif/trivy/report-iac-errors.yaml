@@ -15,4 +15,4 @@ modules:
     rego:
       args:
         violations_threshold: 0
-      path: ../../policies/sarif/report-iac-errors.rego
+      path: ../report-iac-errors.rego
