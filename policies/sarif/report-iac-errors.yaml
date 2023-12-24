@@ -1,7 +1,7 @@
 # name: verify-attack-vector
 enable: true
 modules:
-- name: verify-attack-vector
+- name: report-iac-errors
   type: verify-artifact
   enable: true
   input:
