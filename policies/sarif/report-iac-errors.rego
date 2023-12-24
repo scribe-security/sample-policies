@@ -37,13 +37,14 @@ reason = v {
 
 violations = j {
 	j := {r |
-		d := base64.decode(input.evidence.predicate.content)
-		provenance := json.unmarshal(d)
+		# d := base64.decode(input.evidence.predicate.content)
+		# provenance := json.unmarshal(d)
 		some i
-		rule = provenance.runs[_].tool.driver.rules[i]
+		rule = input.evidence.predicate.content.runs[_].tool.driver.rules[i]
 		rule.defaultConfiguration.level == "error"
 		r := {
 			"rule": rule.id,
+			"level": rule.defaultConfiguration.level,
 			"description": rule.fullDescription.text,
 		}
 	}
