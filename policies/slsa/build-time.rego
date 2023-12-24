@@ -8,6 +8,8 @@ default created_str := "unknown"
 
 default created := 0
 
+default violations := []
+
 short_description = "Verify that an image was created during working hours"
 
 verify = v {
@@ -15,7 +17,7 @@ verify = v {
 		"allow": allow,
 		"violation": {
 			"type": "Image Creation Time",
-			"details": [{"msg": sprintf("Image created on day %s, on hour %d", [time.weekday(created), time.clock(created)[0]])}],
+			"details": violations,
 		},
 		short_description: short_description,
 		"summary": [{
@@ -47,4 +49,9 @@ reason = v {
 reason = v {
 	not allow
 	v := "image created outside of the allowed interval"
+}
+
+violations = v {
+	not allow
+	v := [{"msg": sprintf("Image created on day %s, on hour %d", [time.weekday(created), time.clock(created)[0]])}]
 }

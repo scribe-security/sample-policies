@@ -13,10 +13,10 @@ modules:
     rego:
       args:
         rule_level:
-          - error
+          - warning
         precision: []
         rule_ids:
-          - CVE-2021-3156
+          - CVE-2023-44487
         ignore: []
-        max_allowed: 1
+        max_allowed: 0
       path: ../verify-sarif.rego

@@ -4,16 +4,16 @@ default allow = false
 
 default exceeding = 0
 
-import future.keywords.if
+default violations = []
 
-verify = v if {
+verify = v {
 	v := {
 		"allow": allow,
 		"summary": [{
 			"allow": allow,
 			"violation": {
 				"type": "Too Old SBOM",
-				"details": [{"msg": sprintf("SBOM created at: %d (earliest create date is %d)", [timestamp, time.now_ns() - maximum_age])}],
+				"details": violations,
 			},
 			"reason": reason,
 			"violations": exceeding,
@@ -31,16 +31,16 @@ timestamp = time.parse_rfc3339_ns(input.evidence.predicate.bom.metadata.timestam
 
 exceeding = time.now_ns() - (timestamp + maximum_age)
 
-allow if {
+allow {
 	exceeding <= 0
 }
 
-reason = v if {
+reason = v {
 	allow
 	v := "SBOM is fresh enough"
 }
 
-reason = v if {
+reason = v {
 	not allow
 	v := "SBOM is too old"
 }
@@ -48,4 +48,9 @@ reason = v if {
 errors[msg] {
 	not input.evidence.predicate.bom.metadata.timestamp
 	msg := "bom timestamp not presented"
+}
+
+violations = v{
+	not allow
+	v := [{"msg": sprintf("SBOM created at: %d (earliest create date is %d)", [timestamp, time.now_ns() - maximum_age])}]
 }
