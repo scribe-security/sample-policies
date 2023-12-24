@@ -13,7 +13,7 @@ modules:
     rego:
       args:
         rule_level:
-          - warning
+          - error
         precision: []
         rule_ids:
           - CVE-2023-44487
