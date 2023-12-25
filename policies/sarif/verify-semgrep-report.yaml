@@ -8,6 +8,7 @@ modules:
     signed: false
     format: statement-generic
     context-group:
+      - env
       - flags
     match:
       target_type: generic

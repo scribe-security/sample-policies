@@ -10,6 +10,7 @@ modules:
       common-names:
         - EvidencePolicyResults4
     context-group:
+      - env
       - flags
     format: "statement-cyclonedx-json"
     match:

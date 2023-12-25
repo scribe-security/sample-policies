@@ -7,6 +7,9 @@ modules:
   input:
     signed: false
     format: statement-generic
+    context-group:
+      - env
+      - flags
     match:
       target_type: generic
       predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif

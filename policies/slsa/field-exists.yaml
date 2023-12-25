@@ -8,6 +8,7 @@ modules:
     signed: false
     format: statement-slsa
     context-group:
+      - env
       - flags
     match:
       target_type: image

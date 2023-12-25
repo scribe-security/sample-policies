@@ -1,0 +1,128 @@
+attest:
+  cocosign:
+    policies:
+      - name: sbom-policies
+        enable: true
+        modules:
+          - name: required-packages
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  required_pkgs:
+                    - "gpgv@2.2.27-3ubuntu2.1"
+                    - "valint"
+                  violations_limit: 0
+                path: sboms/required-packages.rego
+          - name: banned-licenses
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  blocklist: 
+                    - GPL
+                  blocklisted_limit : 0
+                path: sboms/banned-licenses.rego
+          - name: blocklist-packages
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  blocklist: 
+                    - "pkg:deb/ubuntu/tar"
+                    - "log4j"
+                  blocklisted_limit : 0
+                path: sboms/blocklist-packages.rego
+          - name: complete-licenses
+            type: verify-artifact
+            enable: true
+            level: "warning"
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                path: sboms/complete-licenses.rego
+          - name: fresh-sbom
+            type: verify-artifact
+            enable: true
+            level: "note"
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  max_days: 1
+                path: sboms/fresh-sbom.rego
+      - name: image-policies
+        enable: true
+        modules:
+          - name: forbid-large-images
+            type: verify-artifact
+            enable: true
+            level: "note"
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  max_size: 1
+                path: images/forbid-large-images.rego
+          - name: fresh-image
+            type: verify-artifact
+            enable: true
+            level: "warning"
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  max_days: 1
+                path: images/fresh-image.rego
+          - name: restrict-shell-entrypoint
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                path: images/restrict-shell-entrypoint.rego
+          - name: verify-labels
+            type: verify-artifact
+            enable: true
+            input:
+              signed: false
+              format: "statement-cyclonedx-json"
+              match:
+                target_type: image
+              rego:
+                args:
+                  labels:
+                    - label: "org.opencontainers.image.version"
+                      value: "22.05"
+                path: images/verify-labels.rego

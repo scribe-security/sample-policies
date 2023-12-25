@@ -7,6 +7,9 @@ modules:
   input:
     signed: false
     format: statement-generic
+    context-group:
+      - env
+      - flags
     match:
       target_type: generic
       predicate_type: http://scribesecurity.com/evidence/generic/v0.1

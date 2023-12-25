@@ -8,6 +8,7 @@ modules:
       signed: false
       format: statement-cyclonedx-json
       context-group:
+        - env
         - flags
       identity:
         common-names:
