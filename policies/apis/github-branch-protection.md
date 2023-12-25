@@ -140,6 +140,3 @@ attest:
 - **Description:** Allows fork syncing with the protected branch.
 - **Recommended Setting:** `false` - Limits potential unauthorized changes.
 
----
-
-These settings provide a framework for a secure and controlled development environment. Adjust them as necessary to fit the specific needs of your project and team.

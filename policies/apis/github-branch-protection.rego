@@ -10,6 +10,7 @@ short_description = "Verify that built branch has branch protection rules set."
 description = "Branch protection rules prevent unplanned and unmanged changes to the branch. It is recommended to set branch protection rules for all branches."
 
 verify = v {
+    api_status_code == 200
 	v := {
 		"allow": allow,
 		"violation": {
@@ -22,6 +23,24 @@ verify = v {
 			"allow": allow,
 			"reason": reason,
 			"violations": count(violations),
+		}],
+	}
+}
+
+verify = v {
+    api_status_code != 200
+	v := {
+		"allow": false,
+		"violation": {
+			"type": "Branch Protection Violation",
+			"details": [{"api_status_code": api_status_code, "api_status": api_status}],
+		},
+		"short_description": short_description,
+		"description": description,
+		"summary": [{
+			"allow": false,
+			"reason": "api call failed",
+			"violations": [{"api_status_code": api_status_code, "api_status": api_status}],
 		}],
 	}
 }
@@ -109,7 +128,7 @@ get_result("required_signatures") = r {
 }
 
 check("required_signatures", expected) := r {
-    r:= {get_result("required_signatures") == expected}
+    r:= get_result("required_signatures") == expected
 }
 
 get_result("enforce_admins") := r {
@@ -118,7 +137,7 @@ get_result("enforce_admins") := r {
 }
 
 check("enforce_admins", expected) := r {
-    r:= {get_result("enforce_admins") == expected}
+    r:= get_result("enforce_admins") == expected
 }
 
 get_result("required_linear_history") := r {
@@ -127,7 +146,7 @@ get_result("required_linear_history") := r {
 }
 
 check("required_linear_history", expected) := r {
-    r:= {get_result("required_linear_history") == expected}
+    r:= get_result("required_linear_history") == expected
 }
 
 # Note: allow force pushes == true is the less secure option
@@ -137,7 +156,7 @@ get_result("allow_force_pushes") := r {
 }
 
 check("allow_force_pushes", expected) := r {
-    r:= {get_result("allow_force_pushes") == expected}
+    r:= get_result("allow_force_pushes") == expected
 }
 
 
@@ -148,7 +167,7 @@ get_result("allow_deletions") := r {
 }
 
 check("allow_deletions", expected) := r {
-    r:= {get_result("allow_deletions") == expected}
+    r:= get_result("allow_deletions") == expected
 }
 
 get_result("block_creations") := r {
@@ -157,7 +176,7 @@ get_result("block_creations") := r {
 }
 
 check("block_creations", expected) := r {
-    r:= {get_result("block_creations") == expected}
+    r:= get_result("block_creations") == expected
 }
 
 get_result("required_conversation_resolution") := r {
@@ -166,7 +185,7 @@ get_result("required_conversation_resolution") := r {
 }
 
 check("required_conversation_resolution", expected) := r {
-    r:= {get_result("required_conversation_resolution") == expected}
+    r:= get_result("required_conversation_resolution") == expected
 }
 
 get_result("lock_branch") := r {
@@ -175,7 +194,7 @@ get_result("lock_branch") := r {
 }
 
 check("lock_branch", expected) := r {
-    r:= {get_result("lock_branch") == expected}
+    r:= get_result("lock_branch") == expected
 }
 
 get_result("allow_fork_syncing") := r {
@@ -184,7 +203,7 @@ get_result("allow_fork_syncing") := r {
 }
 
 check("allow_fork_syncing", expected) := r {
-    r:= {get_result("allow_fork_syncing") == expected}
+    r:= get_result("allow_fork_syncing") == expected
 }
 
 # Require Pull Request Related Rules
@@ -195,7 +214,7 @@ get_result("required_pull_request_reviews.dismiss_stale_reviews") := r {
 }
 
 check("required_pull_request_reviews.dismiss_stale_reviews", expected) := r {
-    r:= {get_result("required_pull_request_reviews.dismiss_stale_reviews") == expected}
+    r:= get_result("required_pull_request_reviews.dismiss_stale_reviews") == expected
 }
 
 get_result("required_pull_request_reviews.required_approving_review_count") := r {
@@ -204,7 +223,7 @@ get_result("required_pull_request_reviews.required_approving_review_count") := r
 }
 
 check("required_pull_request_reviews.required_approving_review_count", expected) := r {
-    r:= {get_result("required_pull_request_reviews.required_approving_review_count") == expected}
+    r:= get_result("required_pull_request_reviews.required_approving_review_count") == expected
 }
 
 
@@ -214,7 +233,7 @@ get_result("required_pull_request_reviews.require_code_owner_reviews") := r {
 }
 
 check("required_pull_request_reviews.require_code_owner_reviews", expected) := r {
-    r:= {get_result("required_pull_request_reviews.require_code_owner_reviews") == expected}
+    r:= get_result("required_pull_request_reviews.require_code_owner_reviews") == expected
 }
 
 get_result("required_pull_request_reviews.require_last_push_approval") := r {
@@ -223,7 +242,7 @@ get_result("required_pull_request_reviews.require_last_push_approval") := r {
 }
 
 check("required_pull_request_reviews.require_last_push_approval", expected) := r {
-    r:= {get_result("required_pull_request_reviews.require_last_push_approval") == expected}
+    r:= get_result("required_pull_request_reviews.require_last_push_approval") == expected
 }
 
 
@@ -350,7 +369,7 @@ get_result("required_status_checks.strict") := r {
 }
 
 check("required_status_checks.strict", expected) := r {
-    r:= {get_result("required_status_checks.strict") == expected}
+    r:= get_result("required_status_checks.strict") == expected
 }
 
 
@@ -394,7 +413,10 @@ query := {
     "url": api_url,
     "timeout": "30s",
 }
-api_info := http.send(query).body
+response := http.send(query)
+api_status_code := response.status_code
+api_status := response.status
+api_info := response.body
 
 config := input.config.args.branch_protection_rules
 
