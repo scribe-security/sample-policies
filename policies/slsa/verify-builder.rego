@@ -36,9 +36,9 @@ reason = v {
 
 violations = j {
 	j := {r |
-		input.evidence.predicate.runDetails.builder.id != input.config.args.id
+		input.evidence.predicate.buildDefinition.internalParameters.hostname != input.config.args.id
 		r = {
-			"builder_id": input.evidence.predicate.runDetails.builder.id,
+			"builder_id": input.evidence.predicate.buildDefinition.internalParameters.hostname,
 		}
 	}
 }
