@@ -14,5 +14,5 @@ modules:
       target_type: image
     rego:
       args:
-        id: "local"
+        id: ${{ Args.BUILDER_ID }}
       path: verify-builder.rego
