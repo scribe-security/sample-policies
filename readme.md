@@ -54,7 +54,8 @@ Each implemented policy in the table that has an example in this repo has a link
 | No License Modification | Prevent license modifications. | src and dst [SBOM](#sboms) |
 | Verify Source code Integrity | Verify that the artifact source code has not been modified | src and dst [Git SBOM](#git) |
 | Verify Dependencies Integrity | Verify that specific files or folders have not been modified | src and dst [SBOM](#sboms) |
-
+| [Verify Github Branch Protection](policies/apis/github-branch-protection.md) | Verify that the branch protection rules are compliant to required | None |
+| [Verify GitLab Push Rules](policies/apis/gitlab-push-rules.md) | Verify that the push rules are compliant to required. GitLabs push rules overlap some of GitHub's branch protection rules | None |
 ### General Information
 
 Most of the policies in this repo consist of two files: a `.yaml` and a `.rego`.
