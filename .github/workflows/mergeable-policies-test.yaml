@@ -20,6 +20,7 @@ jobs:
           repository: scribe-security/valint.git
           path: valint
           ref: feature/mergeable_valint_configs
+          token: ${{ secrets.READ_PRIVATE_GO_REPOS }}
       - name: Build valint
         run: |
           cd valint
