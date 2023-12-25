@@ -2,7 +2,8 @@ name: Full-Kit Policy Test
 on: [push, workflow_dispatch]
 
 jobs:
-  test:
+  full-kit-test:
+    name: Full-Kit Policy Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
