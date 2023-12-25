@@ -12,6 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: scribe-public/buildInDocker.git
+          ref: main
           path: buildindocker
       - name: Checkout valint
         uses: actions/checkout@v4
