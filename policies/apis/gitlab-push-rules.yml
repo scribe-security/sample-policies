@@ -8,6 +8,7 @@ modules:
     signed: false
     context-group:
       - env
+    format: "statement-cyclonedx-json"
     rego:
       args:
         api_token: '{{ .Args.Token }}'
