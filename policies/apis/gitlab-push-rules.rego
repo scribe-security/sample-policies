@@ -5,6 +5,8 @@ import future.keywords.every
 
 default allow := false
 
+default violations := []
+
 short_description = "Verify that the project has push rules set."
 
 description = "Push rules prevent unplanned and unmanged changes to the project repository. It is recommended to set push rules for all projects."
@@ -33,14 +35,14 @@ verify = v {
 		"allow": false,
 		"violation": {
 			"type": "Push Rules Setting Violation",
-			"details": [{"api_status_code": api_status_code, "api_status": api_status}],
+			"details": [{"api_status_code": api_status_code, "api_status": api_status, "api_raw_response": api_info}],
 		},
 		"short_description": short_description,
 		"description": description,
 		"summary": [{
 			"allow": false,
 			"reason": "api call failed",
-			"violations": [{"api_status_code": api_status_code, "api_status": api_status, "api_raw_response": api_info}],
+			"violations": 3,
 		}],
 	}
 }
