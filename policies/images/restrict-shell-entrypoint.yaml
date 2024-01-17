@@ -1,16 +1,11 @@
 # name: image-policy
-enable: true
-modules:
+rules:
 - name: no-shell-access
-  type: verify-artifact
-  enable: true
-  input:
+  path: restrict-shell-entrypoint.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
     rego:
-      path: restrict-shell-entrypoint.rego

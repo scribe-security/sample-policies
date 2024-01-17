@@ -1,21 +1,15 @@
 # name: verify-attack-vector
-enable: true
-modules:
+rules:
 - name: verify-attack-vector
-  type: verify-artifact
-  enable: true
-  input:
+  path: ../verify-attack-vector.rego
+  evidence: 
     signed: false
-    format: statement-generic
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: generic
-      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
-    rego:
-      args:
-        attack_vectors:
-          - "stack buffer overflow"
-        violations_threshold: 0
-      path: ../verify-attack-vector.rego
+    format-type: generic
+    filter-by:
+      - product
+    target_type: generic
+    predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+  with: 
+    attack_vectors:
+      - "stack buffer overflow"
+    violations_threshold: 0

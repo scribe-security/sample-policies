@@ -96,18 +96,19 @@ This policy ([artifact-signed.yaml](policies/sboms/artifact-signed.yaml)) verifi
 If you have not created an SBOM yet, create an sbom attestation, for example:
 
 In [artifact-signed.yaml](policies/sboms/artifact-signed.yaml) file,
-edit policy parameters ```attest.cocosign.policies.modules.input identity``` to reflect the expected signers identity.
+edit policy parameters ```attest.cocosign.policies.rules.input identity``` to reflect the expected signers identity.
 
 You can also edit `target_type` to refelct the artifact type.
 
 > Optional target types are `git`,`directory`, `image`, `file`, `generic`.
 
 ```yaml
-identity:
-  emails:
-    - example@company.com
-match:
+evidence:
    target_type: image
+with:
+   identity:
+      emails:
+         - example@company.com
 ```
 
 #### Blocklist Packages
@@ -119,7 +120,7 @@ This policy ([blocklist-packages.yaml](policies/sboms/blocklist-packages.yaml), 
 Edit the list of the risky licenses in the `input.rego.args` parameter in file [blocklist-packages.yaml](policies/sboms/blocklist-packages.yaml):
 
 ```yaml
-args:
+with:
    blocklist: 
       - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
       - "log4j"
@@ -133,7 +134,7 @@ This policy ([required-packages.yaml](policies/sboms/required-packages.yaml), [r
 Edit the list of the required packages in the `input.rego.args` parameter in file [required-packages.yaml](policies/sboms/required-packages.yaml):
 
 ```yaml
-args:
+with:
    required_pkgs:
       - "pkg:deb/ubuntu/bash@5.1-6ubuntu1?arch=amd64\u0026distro=ubuntu-22.04"
    violations_limit: 1
@@ -168,7 +169,7 @@ This policy ([fresh-sbom.yaml](policies/sboms/fresh-sbom.yaml), [fresh-sbom.rego
 Edit the policy in the `input.rego.args` parameter in file [fresh-sbom.yaml](policies/sboms/fresh-sbom.yaml):
 
 ```yaml
-args:
+with:
    max_days : 30
 ```
 
@@ -199,7 +200,7 @@ This policy ([blocklist-build-scripts.yaml](policies/images/blocklist-build-scri
 Edit the list of the blocklisted scripts in the `input.rego.args` parameter in file [blocklist-build-scripts.yaml](policies/images/no-build-scripts.yaml):
 
 ```yaml
-args:
+with:
    blocklist: 
       - curl
 ```
@@ -211,7 +212,7 @@ This policy ([verify-labels.yaml](policies/images/verify-labels.yaml), [verify-l
 Edit the list of the required labels in the config object in file [verify-labels.yaml](policies/images/verify-labels.yaml):
 
 ```yaml
-args:
+with:
    labels:
       - label: "org.opencontainers.image.version"
         value: "22.04"
@@ -224,7 +225,7 @@ This policy ([fresh-image.yaml](policies/images/fresh-image.yaml), [fresh-image.
 Edit the policy in the `input.rego.args` parameter in file [fresh-image.yaml](policies/images/fresh-image.yaml):
 
 ```yaml
-args:
+with:
    max_days: 183
 ```
 
@@ -235,7 +236,7 @@ This policy ([forbid-large-images.yaml](policies/images/forbid-large-images.yaml
 Set max size in bytes in the `input.rego.args` parameter in file [forbid-large-images.yaml](policies/images/forbid-large-images.yaml):
 
 ```yaml
-args:
+with:
    max_size: 77808811
 ```
 
@@ -263,7 +264,7 @@ For specifying the list of files and identities, edit the `input.rego.args` para
 This example for repository [Golang Build](https://github.com/golang/build) verifies that files `build.go` and `internal/https/README.md` were modified only by identities containing `@golang.com` and `@golang.org`:
 
 ```yaml
-args:
+with:
    ids:
       - "@golang.com"
       - "@golang.org"
@@ -301,7 +302,7 @@ This policy ([verify-builder.yaml](policies/slsa/verify-builder.yaml), [verify-b
 Edit policy parameters in the `input.rego.args` parameter in file [verify-builder.yaml](policies/slsa/verify-builder.yaml):
 
 ```yaml
-args:
+with:
    id: "local"
 ```
 
@@ -312,7 +313,7 @@ This policy ([banned-builder-deps.yaml](policies/slsa/banned-builder-deps.yaml),
 Edit policy parameters in the `input.rego.args` parameter in file [banned-builder-deps.yaml](policies/slsa/banned-builder-deps.yaml):
 
 ```yaml
-args:
+with:
    blocklist:
       - name: "valint"
          version: "0.0.0"
@@ -325,7 +326,7 @@ This policy ([build-time.yaml](policies/slsa/build-time.yaml), [build-time.rego]
 Edit policy parameters in the `input.rego.args` parameter in file [build-time.yaml](policies/slsa/build-time.yaml):
 
 ```yaml
-args:
+with:
    start_hour: 8
    end_hour: 20
    workdays:
@@ -345,7 +346,7 @@ So, the policy checks if each byproduct specified in the policy configuration is
 Before running the policy, specify desired byproducts in the `input.rego.args` parameter in file [verify-byproducts.yaml](policies/slsa/verify-byproducts.yaml):
 
 ```yaml
-args:
+with:
    byproducts:
       - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230
 ```
@@ -357,7 +358,7 @@ This policy ([field-exists.yaml](policies/slsa/field-exists.yaml), [field-exists
 Before running the policy, specify desired paths in the `input.rego.args` parameter in file [field-exists.yaml](policies/slsa/field-exists.yaml):
 
 ```yaml
-args:
+with:
    paths:
       - "predicate/runDetails/builder/builderDependencies"
    violations_threshold: 0
@@ -425,7 +426,7 @@ After that create the evidence and verify it as described above.
 To verify that the SARIF report does not contain any critical CVEs, set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level:
       - critical
    precision: []
@@ -439,7 +440,7 @@ args:
 To verify that the SARIF report does not contain more than specified number of CVEs with high level (let's say 10), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level: high,
    precision: []
    rule_ids: []
@@ -452,7 +453,7 @@ args:
 To verify that the SARIF report does not contain certain CVEs (let's say CVE-2021-1234 and CVE-2021-5678), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level:
       - "error"
       - "warning"
@@ -471,7 +472,7 @@ args:
 To verify that the SARIF report does not contain any static analysis errors, set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level:
       - "error"
    precision: []
@@ -485,7 +486,7 @@ args:
 To verify that the SARIF report does not contain more than specified number of static analysis warnings (let's say 10), set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level:
       - "warning"
    precision: []
@@ -499,7 +500,7 @@ args:
 To verify that the SARIF report does not contain static analysis warnings from the following rules: "rule1", "rule2", "rule3", set the following parameters in the `rego.args` section in the[verify-sarif.yaml](policies/sarif/verify-sarif.yaml) file:
 
 ```yaml
-args:
+with:
    rule_level:
       - "error"
       - "warning"
@@ -521,7 +522,7 @@ This policy ([verify-attack-vector.yaml](policies/sarif/verify-attack-vector.yam
 For example, to restrict vulnerabilities with attack vector "stack buffer overflow", set the following parameters in the `rego.args` section in the [verify-attack-vector.yaml](policies/sarif/verify-attack-vector.yaml) file:
 
 ```yaml
-args:
+with:
    attack_vectors:
       - "stack buffer overflow"
    violations_threshold: 0
@@ -554,7 +555,7 @@ valint verify my-image-dockerfile.json -i statement-generic -c policies/sarif/re
 The only configurable parameter in [report-iac-errors.yaml](policies/sarif/report-iac-errors.yaml) is `violations_threshold`, which is the maximum number of errors allowed in the report:
 
 ```yaml
-args:
+with:
    violations_threshold: 0
 ```
 
@@ -580,7 +581,7 @@ valint bom semgrep-report.sarif --predicate-type http://scribesecurity.com/evide
 Configuration of this policy is done in the file [verify-semgrep-report.yaml](policies/sarif/verify-semgrep-report.yaml). In this example we forbid any violations of the `use-after-free` rule:
 
 ```yaml
-args:
+with:
    rule_ids:
       - "use-after-free"
    violations_threshold: 0

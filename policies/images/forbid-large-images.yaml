@@ -1,18 +1,14 @@
 # name: image-policy
-enable: true
-modules:
+rules:
 - name: large-image
-  type: verify-artifact
-  enable: true
-  input:
+  path: forbid-large-images.rego
+
+  evidence:
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        max_size: 77819980
-      path: forbid-large-images.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+
+  with:
+    max_size: 77819980

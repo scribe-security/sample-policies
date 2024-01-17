@@ -1,28 +1,29 @@
 # name: git-policies
-enable: true
-modules:
+rules:
 - name: coding-permissions
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    identity:
-      common-names:
-        - EvidencePolicyResults4
-    context-group:
-      - env
-      - flags
-    format: "statement-cyclonedx-json"
-    match:
-      target_type: git
-    rego:
-      args:
-        ids:
-          - "@golang.com"
-          - "@golang.org"
-          # - '{{.Args.EMAIL}}'
-        files:
-          - "a.txt"
-          # - "jenkins_k8s/scripts/kaniko_config.sh"
-      path: coding-permissions.rego
+  path: coding-permissions.rego
 
+  description: "A rule to verify that only allowed users commited to the repository"
+  labels:
+    - git
+    - sample-policy-bundle
+  initiatives:
+    - slsa
+
+  evidence:
+    signed: false
+    filter-by:
+      - product
+    format-type: "cyclonedx-json"
+    target_type: git
+
+  with:
+    identity:
+      emails:
+        - "@golang.com"
+    ids:
+      - "@golang.com"
+      - "@golan1g.org"
+    files:
+      - "a.txt"
+      - "jenkins_k8s/scripts/kaniko_config.sh"

@@ -1,21 +1,15 @@
 # name: slsa-policy
-enable: true
-modules:
+rules:
 - name: blocklist-builder-dependencies
-  type: verify-artifact
-  enable: true
-  input:
+  evidence: 
     signed: false
-    format: statement-slsa
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
+    format-type: slsa
+    filter-by:
+      - product
+    target_type: image
+  with: 
         blocklist:
           - name: "valint"
             version: "0.4.0"
-      path: banned-builder-deps.rego
+  path: banned-builder-deps.rego
 

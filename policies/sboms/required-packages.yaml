@@ -1,20 +1,14 @@
 # name: sbom-policy
-enable: true
-modules:
+rules:
 - name: required-packages
-  type: verify-artifact
-  enable: true
-  input:
+  path: required-packages.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        required_pkgs:
-          - "gpgv@2.2.27-3ubuntu2.1"
-        violations_limit: 0
-      path: required-packages.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    required_pkgs:
+      - "gpgv@2.2.27-3ubuntu2.1"
+    violations_limit: 0

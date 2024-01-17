@@ -1,19 +1,13 @@
 # name: sarif-policy
-enable: true
-modules:
+rules:
 - name: verify-tfsec
-  type: verify-artifact
-  enable: true
-  input:
+  path: ../verify-tool-name.rego
+  evidence: 
     signed: false
-    format: statement-generic
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: generic
-      predicate_type: http://docs.oasis-open.org/sarif/sarif/2.1.0
-    rego:
-      args:
-        tool_name: defsec
-      path: ../verify-tool-name.rego
+    format-type: generic
+    filter-by:
+      - product
+    target_type: generic
+    predicate_type: http://docs.oasis-open.org/sarif/sarif/2.1.0
+  with: 
+    tool_name: defsec

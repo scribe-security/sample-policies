@@ -1,22 +1,16 @@
 # name: slsa-policy
-enable: true
-modules:
+rules:
 - name: verify-field-exists
-  type: verify-artifact
-  enable: true
-  input:
+  path: field-exists.rego
+  evidence: 
     signed: false
-    format: statement-slsa
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        paths:
-          - "myunknownfield"
-          - "predicate/runDetails/builder/builderDependencies"
-        violations_threshold: 1
-      path: field-exists.rego
+    format-type: slsa
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    paths:
+      - "myunknownfield"
+      - "predicate/runDetails/builder/builderDependencies"
+    violations_threshold: 1
 

@@ -1,18 +1,12 @@
 # name: slsa-policy
-enable: true
-modules:
+rules:
 - name: builder
-  type: verify-artifact
-  enable: true
-  input:
+  path: verify-builder.rego
+  evidence: 
     signed: false
-    format: statement-slsa
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        id: '{{ .Args.BUILDER_ID }}'
-      path: verify-builder.rego
+    format-type: slsa
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    id: '{{ .Args.BUILDER_ID }}'

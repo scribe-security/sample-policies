@@ -1,17 +1,13 @@
 # name: my_policy
-enable: true
-modules:
+rules:
   - name: artifact-signed
-    type: verify-artifact
-    enable: true
-    input:
+    evidence: 
       signed: false
-      format: statement-cyclonedx-json
-      context-group:
-        - env
-        - flags
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
+    with:
       identity:
         common-names:
           - EvidencePolicyResults4
-      match:
-        target_type: image

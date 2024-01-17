@@ -1,18 +1,10 @@
 # name: git-policies
-enable: true
-modules:
+rules:
 - name: no-unsigned-commits
-  type: verify-artifact
-  enable: true
   level: "warning"
-  input:
+  evidence:
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: git
-    rego:
-      path: no-unsigned-commits.rego
-
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: git

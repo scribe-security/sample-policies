@@ -1,19 +1,13 @@
 # name: slsa-policy
-enable: true
-modules:
+rules:
 - name: byproducts
-  type: verify-artifact
-  enable: true
-  input:
+  path: verify-byproducts.rego
+  evidence: 
     signed: false
-    format: statement-slsa
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        byproducts:
-          - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230
-      path: verify-byproducts.rego
+    format-type: slsa
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    byproducts:
+      - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230

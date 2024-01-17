@@ -1,18 +1,12 @@
 # name: sbom-policy
-enable: true
-modules:
+rules:
 - name: fresh-sbom
-  type: verify-artifact
-  enable: true
-  input:
+  path: fresh-sbom.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        max_days : 30
-      path: fresh-sbom.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    max_days : 30

@@ -1,17 +1,12 @@
 # name: git-policies
-enable: true
-modules:
+rules:
 - name: no-commits-to-main
-  type: verify-artifact
-  enable: true
+  path: no-commit-to-main.rego
   level: "note"
-  input:
+  evidence:
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: git
-    rego:
-      path: no-commit-to-main.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: git
+

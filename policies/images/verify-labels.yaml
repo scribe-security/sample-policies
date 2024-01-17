@@ -1,20 +1,14 @@
 # name: image-policy
-enable: true
-modules:
+rules:
 - name: labels
-  type: verify-artifact
-  enable: true
-  input:
+  path: verify-labels.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        labels:
-          - label: "org.opencontainers.image.version"
-            value: "22.04"
-      path: verify-labels.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    labels:
+      - label: "org.opencontainers.image.version"
+        value: "22.04"

@@ -1,17 +1,11 @@
 # name: sbom-policy
-enable: true
-modules:
+rules:
 - name: complete-licenses
-  type: verify-artifact
-  enable: true
-  input:
+  path: complete-licenses.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      path: complete-licenses.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
 

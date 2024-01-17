@@ -1,18 +1,10 @@
-attest:
-  cocosign:
-    policies:
-    - name: k8s-jailbreak
-      enable: true
-      modules:
-      - name: k8s-jailbreak
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-generic
-          match:
-            target_type: generic
-            predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-          rego:
-            path: k8s-jailbreak.rego
+# name: k8s-jailbreak
+rules:
+  - name: k8s-jailbreak
+    path: k8s-jailbreak.rego
+    evidence:
+      signed: false
+      format-type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+      target_type: generic
 

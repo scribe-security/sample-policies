@@ -1,19 +1,15 @@
 # name: image-policy
-enable: true
-modules:
+rules:
 - name: blocklist-build-scripts
-  type: verify-artifact
-  enable: true
-  input:
+  path: blocklist-build-scripts.rego
+
+  evidence:
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        blocklist: 
-          - curl
-      path: blocklist-build-scripts.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+
+  with:
+    blocklist: 
+      - curl

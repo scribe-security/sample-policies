@@ -1,21 +1,15 @@
 # name: sbom-policy
-enable: true
-modules:
+rules:
 - name: blocklist-packages
-  type: verify-artifact
-  enable: true
-  input:
+  path: blocklist-packages.rego
+  evidence: 
     signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        blocklist: 
-          - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
-          - "log4j"
-        blocklisted_limit: 1
-      path: blocklist-packages.rego
+    format-type: cyclonedx-json
+    filter-by:
+      - product
+    target_type: image
+  with: 
+    blocklist: 
+      - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
+      - "log4j"
+    blocklisted_limit: 1
