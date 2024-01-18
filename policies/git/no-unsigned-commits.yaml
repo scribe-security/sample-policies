@@ -1,10 +1,18 @@
 # name: git-policies
 rules:
-- name: no-unsigned-commits
-  level: "warning"
-  evidence:
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: git
+  - name: no-unsigned-commits
+    level: "warning"
+
+    description: "A rule to verify that all the commits are signed"
+    labels:
+      - git
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence:
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: git

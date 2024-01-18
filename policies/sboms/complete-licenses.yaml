@@ -1,11 +1,19 @@
 # name: sbom-policy
 rules:
-- name: complete-licenses
-  path: complete-licenses.rego
-  evidence: 
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: image
+  - name: complete-licenses
+    path: complete-licenses.rego
+
+    description: "A rule for checking that all the packages in the artifact have a license"
+    labels:
+      - sboms
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
 

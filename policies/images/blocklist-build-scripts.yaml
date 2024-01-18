@@ -1,15 +1,22 @@
 # name: image-policy
 rules:
-- name: blocklist-build-scripts
-  path: blocklist-build-scripts.rego
+  - name: blocklist-build-scripts
+    path: blocklist-build-scripts.rego
 
-  evidence:
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: image
+    description: "A rule to verify that no banned commands are used in the build scripts"
+    labels:
+      - images
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
 
-  with:
-    blocklist: 
-      - curl
+    evidence:
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
+
+    with:
+      blocklist:
+        - curl

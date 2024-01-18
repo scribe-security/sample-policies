@@ -1,13 +1,22 @@
 # name: verify-attack-vector
 rules:
-- name: report-iac-errors
-  path: report-iac-errors.rego
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-  with: 
-    violations_threshold: 0
+  - name: report-iac-errors
+    path: report-iac-errors.rego
+
+    description: "A rule to verify that the number of IaC errors is below a threshold"
+    labels:
+      - sarif
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: generic
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+
+    with: 
+      violations_threshold: 0

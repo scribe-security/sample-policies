@@ -1,14 +1,21 @@
 # name: image-policy
 rules:
-- name: large-image
-  path: forbid-large-images.rego
+  - name: large-image
+    path: forbid-large-images.rego
 
-  evidence:
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: image
+    description: "A rule to verify that the image size is below a threshold"
+    labels:
+      - images
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
 
-  with:
-    max_size: 77819980
+    evidence:
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
+
+    with:
+      max_size: 77819980

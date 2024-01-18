@@ -1,18 +1,26 @@
 # name: sarif-policy
 rules:
-- name: '{{ .Env.USERNAME }}'
-  path: verify-sarif.rego
-  enable: '{{ .Env.RUN_ALL }}'
-  evidence:
-    signed: false
-    format: '{{ .Context.content_type }}'
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-  with: 
-    rule_level: '{{ .Args.Level }}'
-    precision: []
-    rule_ids: '{{ .Args.CVEs }}'
-    ignore: []
-    max_allowed: 0
+  - name: sarif-policy
+    path: verify-sarif.rego
+
+    description: "A rule to verify a SARIF report agains a set of rules"
+    labels:
+      - sarif
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence:
+      signed: false
+      format: '{{ .Context.content_type }}'
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+
+    with: 
+      rule_level: '{{ .Args.Level }}'
+      precision: []
+      rule_ids: '{{ .Args.CVEs }}'
+      ignore: []
+      max_allowed: 0

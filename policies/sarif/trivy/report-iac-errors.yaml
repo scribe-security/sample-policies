@@ -1,13 +1,23 @@
 # name: verify-attack-vector
 rules:
-- name: report-iac-error
-  path: ../report-iac-errors.rego
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
-  with: 
-    violations_threshold: 0
+  - name: report-iac-error
+    path: ../report-iac-errors.rego
+
+    description: "A rule to verify that the number of IaC errors is below a threshold"
+    labels:
+      - sarif
+      - sample-policy-bundle
+      - trivy
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: generic
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+
+    with: 
+      violations_threshold: 0

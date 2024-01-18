@@ -1,15 +1,25 @@
 # name: verify-semgrep-report
 rules:
-- name: verify-semgrep-report
-  path: verify-semgrep-report.rego
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-  with: 
-    rule_ids:
-      - "use-after-free"
-    violations_threshold: 2
+  - name: verify-semgrep-report
+    path: verify-semgrep-report.rego
+
+    description: "A rule to verify a semgrep report agains a set of rules"
+    labels:
+      - sarif
+      - sample-policy-bundle
+      - semgrep
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: generic
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+
+    with: 
+      rule_ids:
+        - "use-after-free"
+      violations_threshold: 2

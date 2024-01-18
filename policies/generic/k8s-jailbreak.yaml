@@ -2,9 +2,16 @@
 rules:
   - name: k8s-jailbreak
     path: k8s-jailbreak.rego
-    evidence:
-      signed: false
-      format-type: generic
-      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-      target_type: generic
 
+    description: "A rule to verify that the number of k8s misconfigurations is below a threshold"
+    labels:
+      - k8s
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+      evidence:
+        signed: false
+        format-type: generic
+        predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+        target_type: generic

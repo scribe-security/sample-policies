@@ -1,15 +1,24 @@
 # name: sbom-policy
 rules:
-- name: blocklist-packages
-  path: blocklist-packages.rego
-  evidence: 
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: image
-  with: 
-    blocklist: 
-      - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
-      - "log4j"
-    blocklisted_limit: 1
+  - name: blocklist-packages
+    path: blocklist-packages.rego
+
+    description: "A rule for checking that the number of banned packages in an artifact does not exceed the threshold value"
+    labels:
+      - sboms
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
+
+    with: 
+      blocklist: 
+        - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
+        - "log4j"
+      blocklisted_limit: 1

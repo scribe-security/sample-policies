@@ -1,12 +1,21 @@
 # name: slsa-policy
 rules:
-- name: builder
-  path: verify-builder.rego
-  evidence: 
-    signed: false
-    format-type: slsa
-    filter-by:
-      - product
-    target_type: image
-  with: 
-    id: '{{ .Args.BUILDER_ID }}'
+  - name: builder
+    path: verify-builder.rego
+
+    description: "A rule for checking that the artifact artifact was created by the specified builder"
+    labels:
+      - slsa
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: slsa
+      filter-by:
+        - product
+      target_type: image
+
+    with: 
+      id: '{{ .Args.BUILDER_ID }}'

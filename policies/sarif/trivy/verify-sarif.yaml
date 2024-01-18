@@ -1,18 +1,27 @@
 # name: sarif-policy
 rules:
-- name: sarif-policy
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
-  with: 
-        rule_level: '{{ .Args.Level }}'
-        precision: []
-        rule_ids:
-          - CVE-2023-44487
-        ignore: []
-        max_allowed: 0
-  path: ../verify-sarif.rego
+  - name: sarif-policy
+    path: ../verify-sarif.rego
+
+    description: "A rule to verify a SARIF report agains a set of rules"
+    labels:
+      - sarif
+      - sample-policy-bundle
+      - trivy
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: generic
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+    with: 
+          rule_level: '{{ .Args.Level }}'
+          precision: []
+          rule_ids:
+            - CVE-2023-44487
+          ignore: []
+          max_allowed: 0

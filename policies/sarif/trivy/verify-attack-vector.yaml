@@ -1,15 +1,25 @@
 # name: verify-attack-vector
 rules:
-- name: verify-attack-vector
-  path: ../verify-attack-vector.rego
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
-  with: 
-    attack_vectors:
-      - "stack buffer overflow"
-    violations_threshold: 0
+  - name: verify-attack-vector
+    path: ../verify-attack-vector.rego
+
+    description: "A rule to verify that no attack vector identified in a SARIF report exceeds the threshold"
+    labels:
+      - sarif
+      - sample-policy-bundle
+      - trivy
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: generic
+      filter-by:
+        - product
+      target_type: generic
+      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+
+    with: 
+      attack_vectors:
+        - "stack buffer overflow"
+      violations_threshold: 0

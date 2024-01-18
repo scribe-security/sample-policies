@@ -1,14 +1,23 @@
 # name: ML-policy
 rules:
-- name: verify-license
-  path: verify-hf-license.rego
-  evidence: 
-    signed: false
-    format-type: cyclonedx-json
-    filter-by:
-      - product
-    target_type: image
-  with: 
-    licenses:
-      - "mit"
-      - apache"
+  - name: verify-license
+    path: verify-hf-license.rego
+
+    description: "A rule for checking that the artifact has all the specified licenses"
+    labels:
+      - sboms
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: cyclonedx-json
+      filter-by:
+        - product
+      target_type: image
+
+    with: 
+      licenses:
+        - "mit"
+        - apache"

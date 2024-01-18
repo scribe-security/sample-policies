@@ -1,12 +1,21 @@
 # name: my_policy
 rules:
   - name: artifact-signed
+
+    description: "A rule to verify that the artifact is signed"
+    labels:
+      - sboms
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
     evidence: 
       signed: false
       format-type: cyclonedx-json
       filter-by:
         - product
       target_type: image
+
     with:
       identity:
         common-names:

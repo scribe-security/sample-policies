@@ -1,19 +1,28 @@
 # name: slsa-policy
 rules:
-- name: build-time
-  path: build-time.rego
-  evidence: 
-    signed: false
-    format-type: slsa
-    filter-by:
-      - product
-    target_type: image
-  with: 
-    start_hour: 8
-    end_hour: 20
-    workdays:
-      - "Sunday"
-      - "Monday"
-      - "Tuesday"
-      - "Wednesday"
-      - "Thursday"
+  - name: build-time
+    path: build-time.rego
+
+    description: "A rule for checking that the artifact was created within the specified time window"
+    labels:
+      - slsa
+      - sample-policy-bundle
+    initiatives:
+      - client-policy
+
+    evidence: 
+      signed: false
+      format-type: slsa
+      filter-by:
+        - product
+      target_type: image
+
+    with: 
+      start_hour: 8
+      end_hour: 20
+      workdays:
+        - "Sunday"
+        - "Monday"
+        - "Tuesday"
+        - "Wednesday"
+        - "Thursday"
