@@ -11,7 +11,7 @@ verify = v {
 		"allow": allow,
 		"violation": {
 			"type": "Huggingface License Violation",
-			"details": json.marshal(hf_url),
+			"details": violations,
 		},
 		"short_description": short_description,
 		"summary": [{
@@ -53,4 +53,9 @@ hf_info := info {
 		"timeout": "30s",
 	}
 	info := http.send(query).body
+}
+
+violations = v {
+	not allow
+	v := [{"hf_url": json.marshal(hf_url)}]
 }

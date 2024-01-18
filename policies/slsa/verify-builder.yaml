@@ -1,18 +1,18 @@
-attest:
-  cocosign:
-    policies:
-    - name: slsa-policy
-      enable: true
-      modules:
-      - name: builder
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-slsa
-          match:
-            target_type: image
-          rego:
-            args:
-              id: "local"
-            path: verify-builder.rego
+# name: slsa-policy
+enable: true
+modules:
+- name: builder
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-slsa
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        id: '{{ .Args.BUILDER_ID }}'
+      path: verify-builder.rego

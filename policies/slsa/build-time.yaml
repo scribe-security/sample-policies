@@ -1,25 +1,25 @@
-attest:
-  cocosign:
-    policies:
-    - name: slsa-policy
-      enable: true
-      modules:
-      - name: build-time
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-slsa
-          match:
-            target_type: image
-          rego:
-            args:
-              start_hour: 8
-              end_hour: 20
-              workdays:
-                - "Sunday"
-                - "Monday"
-                - "Tuesday"
-                - "Wednesday"
-                - "Thursday"
-            path: build-time.rego
+# name: slsa-policy
+enable: true
+modules:
+- name: build-time
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-slsa
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        start_hour: 8
+        end_hour: 20
+        workdays:
+          - "Sunday"
+          - "Monday"
+          - "Tuesday"
+          - "Wednesday"
+          - "Thursday"
+      path: build-time.rego

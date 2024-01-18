@@ -1,0 +1,25 @@
+# name: sarif-policy
+enable: true
+modules:
+- name: sarif-policy
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-generic
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: generic
+      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+    rego:
+      args:
+        rule_level:
+          - error
+        precision: []
+        rule_ids:
+          - CVE-2023-44487
+        ignore: []
+        max_allowed: 0
+      path: ../verify-sarif.rego

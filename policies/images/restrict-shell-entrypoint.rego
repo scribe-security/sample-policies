@@ -1,17 +1,17 @@
 package verify
 
-import future.keywords.if
-
 default allow := false
 
 default cmd := ""
 
-verify = v if {
+default violations := []
+
+verify = v {
 	v := {
 		"allow": allow,
 		"violation": {
 			"type": "Allowed shell access",
-			"details": [{"cmd": cmd}],
+			"details": violations,
 		},
 		"summary": [{
 			"allow": allow,
@@ -20,24 +20,29 @@ verify = v if {
 	}
 }
 
-cmd = input.evidence.predicate.bom.metadata.component.properties[i].value if {
+cmd = input.evidence.predicate.bom.metadata.component.properties[i].value {
 	input.evidence.predicate.bom.metadata.component.properties[i].name == "entrypoint"
 }
 
-allow if {
+allow {
 	not contains(cmd, "sh")
 }
 
-allow if {
+allow {
 	contains(cmd, ".sh")
 }
 
-reason = v if {
+reason = v {
 	allow
 	v := "image entrypoint does not allow shell access"
 }
 
-reason = v if {
+reason = v {
 	not allow
 	v := "image entrypoint allows shell access"
+}
+
+violations = v {
+	not allow
+	v := [{"cmd": cmd}]
 }

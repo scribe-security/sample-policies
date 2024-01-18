@@ -1,21 +1,20 @@
-attest:
-  cocosign:
-    policies:
-    - name: sbom-policy
-      enable: true
-      modules:
-      - name: required-packages
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            args:
-              required_pkgs:
-                - "bash@5.1-6ubuntu1?arch=amd64"
-                - "golang/github.com/fsnotify/fsnotify@v1.6.0"
-              violations_limit: 0
-            path: required-packages.rego
+# name: sbom-policy
+enable: true
+modules:
+- name: required-packages
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-cyclonedx-json
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        required_pkgs:
+          - "gpgv@2.2.27-3ubuntu2.1"
+        violations_limit: 0
+      path: required-packages.rego

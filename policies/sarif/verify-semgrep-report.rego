@@ -37,10 +37,10 @@ reason = v {
 
 violations = j {
 	j := {r |
-		d := base64.decode(input.evidence.predicate.content)
-		provenance := json.unmarshal(d)
+		# d := base64.decode(input.evidence.predicate.content)
+		# provenance := json.unmarshal(d)
 		some rule_id in input.config.args.rule_ids
-		run = provenance.runs[_].results[_]
+		run = input.evidence.predicate.content.runs[_].results[_]
 		contains(run.ruleId, rule_id)
 		r := {
 			"rule": run.ruleId,

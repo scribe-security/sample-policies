@@ -1,18 +1,18 @@
-attest:
-  cocosign:
-    policies:
-    - name: image-policy
-      enable: true
-      modules:
-      - name: fresh-image
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            args:
-              max_days: 183
-            path: fresh-image.rego
+# name: image-policy
+enable: true
+modules:
+- name: fresh-image
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-cyclonedx-json
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        max_days: 183
+      path: fresh-image.rego

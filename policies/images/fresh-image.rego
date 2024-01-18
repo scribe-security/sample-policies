@@ -1,20 +1,20 @@
 package verify
 
-import future.keywords.if
-
 default allow := false
 
 default created := 0
 
 default created_str := "unknown"
 
-verify = v if {
+default violations := []
+
+verify = v {
 	v := {
 		"allow": allow,
 		"errors": errors,
 		"violation": {
 			"type": "Too Old Image",
-			"details": [{"max_age": created + maximum_age}],
+			"details": violations,
 		},
 		"summary": [{
 			"allow": allow,
@@ -29,22 +29,22 @@ nanosecs_per_day = ((24 * 60) * 60) * nanosecs_per_second
 
 maximum_age = input.config.args.max_days * nanosecs_per_day
 
-created_str = input.evidence.predicate.bom.metadata.component.properties[i].value if {
+created_str = input.evidence.predicate.bom.metadata.component.properties[i].value {
 	input.evidence.predicate.bom.metadata.component.properties[i].name == "created"
 }
 
 created = time.parse_rfc3339_ns(created_str)
 
-allow if {
+allow {
 	time.now_ns() < created + maximum_age
 }
 
-reason = v if {
+reason = v {
 	allow
 	v := "image is new enough"
 }
 
-reason = v if {
+reason = v {
 	not allow
 	v := "image is too old"
 }
@@ -52,4 +52,9 @@ reason = v if {
 errors[msg] {
 	created_str == "unknown"
 	msg := "bom created not presented"
+}
+
+violations = v {
+	not allow
+	v := [{"max_age": created + maximum_age}]
 }

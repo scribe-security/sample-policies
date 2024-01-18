@@ -12,10 +12,10 @@ modules:
       - flags
     match:
       target_type: generic
-      predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+      predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
     rego:
       args:
         rule_ids:
           - "use-after-free"
         violations_threshold: 2
-      path: verify-semgrep-report.rego
+      path: ../verify-semgrep-report.rego

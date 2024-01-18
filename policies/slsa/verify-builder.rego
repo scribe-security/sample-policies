@@ -4,12 +4,14 @@ default allow = false
 
 default msg := "Builder mismatch"
 
+default violations := []
+
 verify = v {
 	v := {
 		"allow": allow,
 		"violation": {
 			"type": "Builder Mismatch",
-			"details": [{"msg": sprintf("Builder ID %s does not match config ID %s", [input.evidence.predicate.runDetails.builder.id, input.config.args.id])}],
+			"details": violations,
 		},
 		"summary": [{
 			"allow": allow,
@@ -19,7 +21,7 @@ verify = v {
 }
 
 allow {
-	input.evidence.predicate.runDetails.builder.id == input.config.args.id
+	count(violations) == 0
 }
 
 reason = v {
@@ -30,4 +32,13 @@ reason = v {
 reason = v {
 	not allow
 	v := "builder mismatch"
+}
+
+violations = j {
+	j := {r |
+		input.evidence.predicate.buildDefinition.internalParameters.hostname != input.config.args.id
+		r = {
+			"builder_id": input.evidence.predicate.buildDefinition.internalParameters.hostname,
+		}
+	}
 }

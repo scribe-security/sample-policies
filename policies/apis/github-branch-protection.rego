@@ -5,6 +5,8 @@ import future.keywords.every
 
 default allow := false
 
+default violations := []
+
 short_description = "Verify that built branch has branch protection rules set."
 
 description = "Branch protection rules prevent unplanned and unmanged changes to the branch. It is recommended to set branch protection rules for all branches."
@@ -40,7 +42,7 @@ verify = v {
 		"summary": [{
 			"allow": false,
 			"reason": "api call failed",
-			"violations": [{"api_status_code": api_status_code, "api_status": api_status}],
+			"violations": 2,
 		}],
 	}
 }

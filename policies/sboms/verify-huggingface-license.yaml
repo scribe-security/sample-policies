@@ -1,18 +1,20 @@
-attest:
-  cocosign:
-    policies:
-    - name: ML-policy
-      enable: true
-      modules:
-      - name: verify-license
-        type: verify-artifact
-        enable: true
-        input:
-          signed: true
-          format: attest-cyclonedx-json
-          rego:
-            args:
-              licenses:
-                - "mit"
-                - apache"
-            path: verify-hf-license.rego
+# name: ML-policy
+enable: true
+modules:
+- name: verify-license
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-cyclonedx-json
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        licenses:
+          - "mit"
+          - apache"
+      path: verify-hf-license.rego

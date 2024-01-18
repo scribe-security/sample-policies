@@ -1,19 +1,19 @@
-attest:
-  cocosign:
-    policies:
-    - name: image-policy
-      enable: true
-      modules:
-      - name: blocklist-build-scripts
-        type: verify-artifact
-        enable: true
-        input:
-          signed: false
-          format: statement-cyclonedx-json
-          match:
-            target_type: image
-          rego:
-            args:
-              blocklist: 
-                - curl
-            path: blocklist-build-scripts.rego
+# name: image-policy
+enable: true
+modules:
+- name: blocklist-build-scripts
+  type: verify-artifact
+  enable: true
+  input:
+    signed: false
+    format: statement-cyclonedx-json
+    context-group:
+      - env
+      - flags
+    match:
+      target_type: image
+    rego:
+      args:
+        blocklist: 
+          - curl
+      path: blocklist-build-scripts.rego

@@ -37,13 +37,16 @@ reason = v {
 
 violations = j {
 	j := {r |
-		d := base64.decode(input.evidence.predicate.content)
-		provenance := json.unmarshal(d)
+		# d := base64.decode(input.evidence.predicate.content)
+		# provenance := json.unmarshal(d)
 		some i
-		rule = provenance.runs[_].tool.driver.rules[i]
+		rule = input.evidence.predicate.content.runs[_].tool.driver.rules[i]
 		contains(rule.fullDescription.text, "The attack vector is")
 		find_violation(rule)
-		r := {"rule_id": rule.id}
+		r := {
+			"rule_id": rule.id,
+			"description": rule.fullDescription.text,
+		}
 	}
 }
 
