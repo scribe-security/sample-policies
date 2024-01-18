@@ -1,23 +1,21 @@
-# name: sbom-policy
-rules:
-  - name: required-packages
-    path: required-packages.rego
+name: required-packages
+path: required-packages.rego
 
-    description: "A rule for checking that the target has all the required packages"
-    labels:
-      - sboms
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule for checking that the target has all the required packages"
+labels:
+  - sboms
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: cyclonedx-json
-      filter-by:
-        - product
-      target_type: image
+evidence: 
+  signed: false
+  format-type: cyclonedx-json
+  filter-by:
+    - product
+  target_type: image
 
-    with: 
-      required_pkgs:
-        - "gpgv@2.2.27-3ubuntu2.1"
-      violations_limit: 0
+with: 
+  required_pkgs:
+    - "gpgv@2.2.27-3ubuntu2.1"
+  violations_limit: 0

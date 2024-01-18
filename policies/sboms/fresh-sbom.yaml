@@ -1,20 +1,18 @@
-# name: sbom-policy
-rules:
-  - name: fresh-sbom
-    path: fresh-sbom.rego
+name: fresh-sbom
+path: fresh-sbom.rego
 
-    description: "A rule for checking that the SBOM is not older than a threshold"
-    labels:
-      - sboms
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule for checking that the SBOM is not older than a threshold"
+labels:
+  - sboms
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: cyclonedx-json
-      filter-by:
-        - product
-      target_type: image
-    with: 
-      max_days : 30
+evidence: 
+  signed: false
+  format-type: cyclonedx-json
+  filter-by:
+    - product
+  target_type: image
+with: 
+  max_days : 30

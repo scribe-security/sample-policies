@@ -1,25 +1,22 @@
-# name: slsa-policy
-rules:
-  - name: verify-field-exists
-    path: field-exists.rego
+name: verify-field-exists
+path: field-exists.rego
 
-    description: "A rule for checking that the specified field exists in the artifact"
-    labels:
-      - slsa
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule for checking that the specified field exists in the artifact"
+labels:
+  - slsa
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: slsa
-      filter-by:
-        - product
-      target_type: image
+evidence: 
+  signed: false
+  format-type: slsa
+  filter-by:
+    - product
+  target_type: image
 
-    with: 
-      paths:
-        - "myunknownfield"
-        - "predicate/runDetails/builder/builderDependencies"
-      violations_threshold: 1
-
+with: 
+  paths:
+    - "myunknownfield"
+    - "predicate/runDetails/builder/builderDependencies"
+  violations_threshold: 1

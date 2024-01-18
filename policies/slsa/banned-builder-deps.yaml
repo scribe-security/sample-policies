@@ -1,24 +1,22 @@
-# name: slsa-policy
-rules:
-  - name: blocklist-builder-dependencies
+name: blocklist-builder-dependencies
+path: banned-builder-deps.rego
 
-    description: "A rule for checking that the artifact has no banned builder dependencies"
-    labels:
-      - slsa
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule for checking that the artifact has no banned builder dependencies"
+labels:
+  - slsa
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: slsa
-      filter-by:
-        - product
-      target_type: image
+evidence: 
+  signed: false
+  format-type: slsa
+  filter-by:
+    - product
+  target_type: image
 
-    with: 
-          blocklist:
-            - name: "valint"
-              version: "0.4.0"
-    path: banned-builder-deps.rego
+with: 
+  blocklist:
+    - name: "valint"
+      version: "0.4.0"
 

@@ -1,21 +1,19 @@
-# name: image-policy
-rules:
-  - name: fresh-image
-    path: fresh-image.rego
+name: fresh-image
+path: fresh-image.rego
 
-    description: "A rule to verify that the image is not older than a threshold"
-    labels:
-      - images
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule to verify that the image is not older than a threshold"
+labels:
+  - images
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: cyclonedx-json
-      filter-by:
-        - product
-      target_type: image
+evidence: 
+  signed: false
+  format-type: cyclonedx-json
+  filter-by:
+    - product
+  target_type: image
 
-    with: 
-          max_days: 183
+with: 
+      max_days: 183

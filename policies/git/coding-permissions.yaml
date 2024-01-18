@@ -1,29 +1,27 @@
-# name: git-policies
-rules:
-  - name: coding-permissions
-    path: coding-permissions.rego
+name: coding-permissions
+path: coding-permissions.rego
 
-    description: "A rule to verify that only allowed users commited to the repository"
-    labels:
-      - git
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule to verify that only allowed users commited to the repository"
+labels:
+  - git
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence:
-      signed: false
-      filter-by:
-        - product
-      format-type: "cyclonedx-json"
-      target_type: git
+evidence:
+  signed: false
+  filter-by:
+    - product
+  format-type: "cyclonedx-json"
+  target_type: git
 
-    with:
-      identity:
-        emails:
-          - "@golang.com"
-      ids:
-        - "@golang.com"
-        - "@golan1g.org"
-      files:
-        - "a.txt"
-        - "jenkins_k8s/scripts/kaniko_config.sh"
+with:
+  identity:
+    emails:
+      - "@golang.com"
+  ids:
+    - "@golang.com"
+    - "@golan1g.org"
+  files:
+    - "a.txt"
+    - "jenkins_k8s/scripts/kaniko_config.sh"

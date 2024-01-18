@@ -1,23 +1,21 @@
-# name: image-policy
-rules:
-  - name: labels
-    path: verify-labels.rego
+name: labels
+path: verify-labels.rego
 
-    description: "A rule to verify that the image has all the required labels"
-    labels:
-      - images
-      - sample-policy-bundle
-    initiatives:
-      - client-policy
+description: "A rule to verify that the image has all the required labels"
+labels:
+  - images
+  - sample-policy-bundle
+initiatives:
+  - client-policy
 
-    evidence: 
-      signed: false
-      format-type: cyclonedx-json
-      filter-by:
-        - product
-      target_type: image
+evidence: 
+  signed: false
+  format-type: cyclonedx-json
+  filter-by:
+    - product
+  target_type: image
 
-    with: 
-      labels:
-        - label: "org.opencontainers.image.version"
-          value: "22.04"
+with: 
+  labels:
+    - label: "org.opencontainers.image.version"
+      value: "22.04"

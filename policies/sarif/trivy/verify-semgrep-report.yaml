@@ -1,15 +1,23 @@
-# name: verify-semgrep-report
-rules:
-- name: verify-semgrep-report
-  evidence: 
-    signed: false
-    format-type: generic
-    filter-by:
-      - product
-    target_type: generic
-    predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
-  with: 
-    rule_ids:
-      - "use-after-free"
-    violations_threshold: 2
-  path: ../verify-semgrep-report.rego
+name: verify-semgrep-report
+path: ../verify-semgrep-report.rego
+
+description: "A rule to verify a semgrep report agains a set of rules"
+labels:
+  - sarif
+  - sample-policy-bundle
+  - semgrep
+initiatives:
+  - client-policy
+
+evidence: 
+  signed: false
+  format-type: generic
+  filter-by:
+    - product
+  target_type: generic
+  predicate_type: https://aquasecurity.github.io/trivy/v0.42/docs/configuration/reporting/#sarif
+
+with: 
+  rule_ids:
+    - "use-after-free"
+  violations_threshold: 2
