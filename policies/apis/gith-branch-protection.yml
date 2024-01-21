@@ -6,7 +6,6 @@ rules:
 
   evidence:
     signed: false
-    filter-by:
     format-type: "cyclonedx-json"
 
   with:

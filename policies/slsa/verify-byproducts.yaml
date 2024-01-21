@@ -8,13 +8,13 @@ labels:
 initiatives:
   - client-policy
 
-evidence: 
-  signed: false
-  format-type: slsa
+evidence:
   filter-by:
     - product
+  signed: false
+  format-type: slsa
   target_type: image
 
-with: 
+with:
   byproducts:
     - 4693057ce2364720d39e57e85a5b8e0bd9ac3573716237736d6470ec5b7b7230

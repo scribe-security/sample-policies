@@ -9,14 +9,14 @@ initiatives:
   - client-policy
 
 evidence:
-  signed: false
-  format: '{{ .Context.content_type }}'
   filter-by:
     - product
+  signed: false
+  format-type: generic
   target_type: generic
   predicate_type: http://scribesecurity.com/evidence/generic/v0.1
 
-with: 
+with:
   rule_level: '{{ .Args.Level }}'
   precision: []
   rule_ids: '{{ .Args.CVEs }}'

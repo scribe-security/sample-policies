@@ -21,7 +21,7 @@ attest:
               format-type: "cyclonedx-json"
               target_type: image
             with:
-              blocklist: 
+              blocklist:
                 - GPL
               blocklisted_limit : 0
           - name: blocklist-packages
@@ -31,7 +31,7 @@ attest:
               format-type: "cyclonedx-json"
               target_type: image
             with:
-              blocklist: 
+              blocklist:
                 - "pkg:deb/ubuntu/tar"
                 - "log4j"
               blocklisted_limit : 0

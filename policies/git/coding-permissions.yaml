@@ -9,9 +9,9 @@ initiatives:
   - client-policy
 
 evidence:
-  signed: false
   filter-by:
     - product
+  signed: false
   format-type: "cyclonedx-json"
   target_type: git
 

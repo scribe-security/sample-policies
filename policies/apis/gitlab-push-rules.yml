@@ -2,12 +2,11 @@
 rules:
 - name: gitlab-push-rules
   path: gitlab-push-rules.rego
-  
+
   evidence:
     signed: false
-    filter-by:
     format-type: "cyclonedx-json"
-  
+
   with:
     api_token: '{{ .Args.Token }}'
     project: '{{ .Args.Project }}'

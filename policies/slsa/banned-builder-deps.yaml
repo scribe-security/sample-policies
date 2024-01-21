@@ -8,14 +8,14 @@ labels:
 initiatives:
   - client-policy
 
-evidence: 
-  signed: false
-  format-type: slsa
+evidence:
   filter-by:
     - product
+  signed: false
+  format-type: slsa
   target_type: image
 
-with: 
+with:
   blocklist:
     - name: "valint"
       version: "0.4.0"

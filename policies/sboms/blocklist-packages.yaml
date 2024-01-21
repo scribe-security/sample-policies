@@ -8,15 +8,15 @@ labels:
 initiatives:
   - client-policy
 
-evidence: 
-  signed: false
-  format-type: cyclonedx-json
+evidence:
   filter-by:
     - product
+  signed: false
+  format-type: cyclonedx-json
   target_type: image
 
-with: 
-  blocklist: 
+with:
+  blocklist:
     - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
     - "log4j"
   blocklisted_limit: 1

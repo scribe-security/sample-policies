@@ -60,7 +60,7 @@ Each implemented policy in the table that has an example in this repo has a link
 
 Most of the policies in this repo consist of two files: a `.yaml` and a `.rego`.
 
-The first is a part of `valint` configuration file and needs to be merged to the actual `valint.yaml` or used separately if default `valint` config is sufficient.  
+The first is a part of `valint` configuration file and needs to be merged to the actual `valint.yaml` or used separately if default `valint` config is sufficient.
 The second is a rego file that contains the actual policy code. It can be used as is or merged to the `.yaml` file by quoting its content under `rego.script` parameter instead of using the `rego.file` one.
 
 ### SBOMs
@@ -121,7 +121,7 @@ Edit the list of the risky licenses in the `input.rego.args` parameter in file [
 
 ```yaml
 with:
-   blocklist: 
+   blocklist:
       - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
       - "log4j"
    blocklisted_limit: 0
@@ -150,7 +150,7 @@ Edit the list of the risky licenses in the `input.rego.args` parameter in file [
 
 ```yaml
 rgs:
-   blocklist: 
+   blocklist:
       - GPL
       - MPL
    blocklisted_limit : 10
@@ -201,7 +201,7 @@ Edit the list of the blocklisted scripts in the `input.rego.args` parameter in f
 
 ```yaml
 with:
-   blocklist: 
+   blocklist:
       - curl
 ```
 
