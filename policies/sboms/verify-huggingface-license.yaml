@@ -1,20 +1,21 @@
-# name: ML-policy
-enable: true
-modules:
-- name: verify-license
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        licenses:
-          - "mit"
-          - apache"
-      path: verify-hf-license.rego
+name: verify-license
+path: verify-hf-license.rego
+
+description: "A rule for checking that the artifact has all the specified licenses"
+labels:
+  - sboms
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: image
+
+with:
+  licenses:
+    - "mit"
+    - apache"

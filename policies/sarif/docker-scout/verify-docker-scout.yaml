@@ -1,19 +1,21 @@
-# name: sarif-policy
-enable: true
-modules:
-- name: verify-docker-scout
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    format: statement-generic
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: generic
-      predicate_type: http://docs.oasis-open.org/sarif/sarif/2.1.0
-    rego:
-      args:
-        tool_name: "docker scout"
-      path: ../verify-tool-name.rego
+name: verify-docker-scout
+path: ../verify-tool-name.rego
+
+description: "A rule to verify that required tool us used to create the SARIF report"
+labels:
+  - sarif
+  - sample-policy-bundle
+  - docker_scout
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: generic
+  target_type: generic
+  predicate_type: http://docs.oasis-open.org/sarif/sarif/2.1.0
+
+with:
+  tool_name: "docker scout"

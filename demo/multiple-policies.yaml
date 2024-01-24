@@ -11,348 +11,259 @@ attest:
 ## Policy #1
 ## GIT
       - name: git-policies
-        enable: true
-        modules:
+        rules:
           - name: coding-permissions
-            enable: true
-            input:
+            path: ../policies/git/coding-permissions.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                args:
-                  ids:
-                    - "mystery@scribesecurity.com"
-                  files:
-                    - "Dockerfile"
-                path: ../policies/git/coding-permissions.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: git
+            with:
+              ids:
+                - "mystery@scribesecurity.com"
+              files:
+                - "Dockerfile"
           - name: no-commits-to-main
-            type: verify-artifact
-            enable: true
+            path: ../policies/git/no-commit-to-main.rego
             level: "note"
-            input:
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                path: ../policies/git/no-commit-to-main.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: git
           - name: no-unsigned-commits
-            type: verify-artifact
-            enable: true
+            path: ../policies/git/no-unsigned-commits.rego
             level: "warning"
-            input:
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: git
-              rego:
-                path: ../policies/git/no-unsigned-commits.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: git
 ## Policy #2
 ## SBOMs
       - name: sbom-policies
-        enable: true
-        modules:
+        rules:
           - name: required-packages
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/sboms/required-packages.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  required_pkgs:
-                    - "gpgv@2.2.27-3ubuntu2.1"
-                  violations_limit: 0
-                path: ../policies/sboms/required-packages.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              required_pkgs:
+                - "gpgv@2.2.27-3ubuntu2.1"
+              violations_limit: 0
           - name: banned-licenses
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/sboms/banned-licenses.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  blocklist: 
-                    - GPL
-                  blocklisted_limit : 199
-                path: ../policies/sboms/banned-licenses.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              blocklist:
+                - GPL
+              blocklisted_limit : 199
           - name: blocklist-packages
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/sboms/blocklist-packages.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  blocklist: 
-                    - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
-                    - "log4j"
-                  blocklisted_limit : 1
-                path: ../policies/sboms/blocklist-packages.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              blocklist:
+                - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
+                - "log4j"
+              blocklisted_limit : 1
           - name: complete-licenses
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/sboms/complete-licenses.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                path: ../policies/sboms/complete-licenses.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
           - name: fresh-sbom
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/sboms/fresh-sbom.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  max_days: 30
-                path: ../policies/sboms/fresh-sbom.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              max_days: 30
 ## Policy #3
 ## Images
       - name: image-policies
-        enable: true
-        modules:
+        rules:
           - name: blocklist-build-scripts
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/images//blocklist-build-scripts.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  blocklist:
-                    - curl
-                path: ../policies/images//blocklist-build-scripts.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              blocklist:
+                - curl
           - name: forbid-large-images
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/images//forbid-large-images.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  max_size: 77819980
-                path: ../policies/images//forbid-large-images.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              max_size: 77819980
           - name: fresh-image
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/images//fresh-image.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  max_days: 30
-                path: ../policies/images//fresh-image.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              max_days: 30
           - name: restrict-shell-entrypoint
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/images//restrict-shell-entrypoint.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                path: ../policies/images//restrict-shell-entrypoint.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
           - name: verify-labels
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/images//verify-labels.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-cyclonedx-json"
-              match:
-                target_type: image
-              rego:
-                args:
-                  labels:
-                    - label: "org.opencontainers.image.version"
-                      value: "22.04"
-                path: ../policies/images//verify-labels.rego
+              filter-by:
+                - product
+              format-type: "cyclonedx-json"
+              target_type: image
+            with:
+              labels:
+                - label: "org.opencontainers.image.version"
+                  value: "22.04"
 ## Policy #4
 ## SARIF
       - name: sarif-policies
-        enable: true
-        modules:
+        rules:
           - name: check-vulnerabilities
-            type: verify-artifact
-            enable: true
-            input:
+            path: sarif/verify-sarif.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-generic"
-              match:
-                target_type: generic
-                predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-              rego:
-                args:
-                  rule_level:
-                    - critical
-                  precision: []
-                  rule_ids: []
-                  ignore: []
-                  max_allowed: 1000
-                path: sarif/verify-sarif.rego
+              filter-by:
+                - product
+              format-type: "generic"
+              target_type: "generic"
+              predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+            with:
+              rule_level:
+                - critical
+              precision: []
+              rule_ids: []
+              ignore: []
+              max_allowed: 1000
           - name: iac-errors
-            type: verify-artifact
-            enable: true
-            input:
+            path: sarif/report-iac-errors.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-generic"
-              match:
-                target_type: generic
-                predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-              rego:
-                args:
-                  violations_threshold: 0
-                path: sarif/report-iac-errors.rego
+              filter-by:
+                - product
+              format-type: "generic"
+              target_type: generic
+              predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+            with:
+              violations_threshold: 0
           - name: attack-vector
-            type: verify-artifact
-            enable: true
-            input:
+            path: sarif/verify-attack-vector.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-generic"
-              match:
-                target_type: generic
-                predicate_type: http://scribesecurity.com/evidence/generic/v0.1
-              rego:
-                args:
-                  attack_vectors:
-                    - "stack buffer overflow"
-                  violations_threshold: 0
-                path: sarif/verify-attack-vector.rego
+              filter-by:
+                - product
+              format-type: "generic"
+              target_type: generic
+              predicate_type: http://scribesecurity.com/evidence/generic/v0.1
+            with:
+              attack_vectors:
+                - "stack buffer overflow"
+              violations_threshold: 0
 ## Policy #5
 ## SLSA
       - name: slsa-policies
-        enable: true
-        modules:
+        rules:
           - name: banned-builder-deps
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/slsa//banned-builder-deps.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-slsa"
-              match:
-                target_type: image
-              rego:
-                args:
-                  blocklist:
-                  - name: "valint"
-                    version: "0.4.0"
-                path: ../policies/slsa//banned-builder-deps.rego
+              filter-by:
+                - product
+              format-type: "slsa"
+              target_type: image
+            with:
+              blocklist:
+                - name: "valint"
+                  version: "0.4.0"
           - name: build-time
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/slsa//build-time.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-slsa"
-              match:
-                target_type: image
-              rego:
-                args:
-                  start_hour: 8
-                  end_hour: 20
-                  workdays:
-                    - "Sunday"
-                    - "Monday"
-                    - "Tuesday"
-                    - "Wednesday"
-                    - "Thursday"
-                path: ../policies/slsa//build-time.rego
+              filter-by:
+                - product
+              format-type: "slsa"
+              target_type: image
+            with:
+              start_hour: 8
+              end_hour: 20
+              workdays:
+                - "Sunday"
+                - "Monday"
+                - "Tuesday"
+                - "Wednesday"
+                - "Thursday"
           - name: field-exists
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/slsa//field-exists.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-slsa"
-              match:
-                target_type: image
-              rego:
-                args:
-                  paths:
-                    - "predicate/runDetails/builder/builderDependencies"
-                  violations_threshold: 0
-                path: ../policies/slsa//field-exists.rego
+              filter-by:
+                - product
+              format-type: "slsa"
+              target_type: image
+            with:
+              paths:
+                - "predicate/runDetails/builder/builderDependencies"
+              violations_threshold: 0
           - name: verify-builder
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/slsa//verify-builder.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-slsa"
-              match:
-                target_type: image
-              rego:
-                args:
-                  id: "local"
-                path: ../policies/slsa//verify-builder.rego
+              filter-by:
+                - product
+              format-type: "slsa"
+              target_type: image
+            with:
+              id: "local"
           - name: verify-byproducts
-            type: verify-artifact
-            enable: true
-            input:
+            path: ../policies/slsa//verify-byproducts.rego
+            evidence:
               signed: false
-              context-group:
-                - flags
-              format: "statement-slsa"
-              match:
-                target_type: image
-              rego:
-                args:
-                  byproducts:
-                    - 256d88da41857db513b95b50ba9a9b28491b58c954e25477d5dad8abb465430b
-                path: ../policies/slsa//verify-byproducts.rego
+              filter-by:
+                - product
+              format-type: "slsa"
+              target_type: image
+            with:
+              byproducts:
+                - 256d88da41857db513b95b50ba9a9b28491b58c954e25477d5dad8abb465430b

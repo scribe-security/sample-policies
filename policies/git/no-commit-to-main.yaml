@@ -1,17 +1,18 @@
-# name: git-policies
-enable: true
-modules:
-- name: no-commits-to-main
-  type: verify-artifact
-  enable: true
-  level: "note"
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: git
-    rego:
-      path: no-commit-to-main.rego
+name: no-commits-to-main
+path: no-commit-to-main.rego
+level: "note"
+
+description: "A rule to verify that no commits are made to the main branch"
+labels:
+  - git
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: git
+

@@ -18,12 +18,10 @@ attest:
   cocosign:
     policies:
     - name: github-branch-protection
-      enable: true
-      modules:
+            rules:
       - name: github-branch-protection
         type: verify-artifact
-        enable: true
-        input:
+              evidence:
           signed: false
           rego:
             args:
@@ -60,7 +58,7 @@ attest:
                 required_conversation_resolution: false
                 lock_branch: false
                 allow_fork_syncing: false
-            path: github-branch-protection.rego
+        path: github-branch-protection.rego
 ```
 
 
@@ -95,7 +93,7 @@ attest:
 ### `required_status_checks`
 - **Subcategories:** `checks`, `strict`, `contexts`
 - **Description:** Enforces certain checks before a pull request can be merged.
-- **Recommended Setting:** 
+- **Recommended Setting:**
     - `strict`: `true` - Enforces all configured checks to pass before merging.
     - `contexts`: Specify important status checks that must pass.
 

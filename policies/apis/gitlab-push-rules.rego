@@ -218,7 +218,7 @@ bool_norm(s) := r {
 api_url := sprintf("https://gitlab.com/api/v4/projects/%v/push_rule", [input.config.args.project])
 query := {
     "method": "GET",
-    "headers": { 
+    "headers": {
             "Private-Token": input.config.args.api_token
     },
     "url": api_url,

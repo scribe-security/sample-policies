@@ -1,21 +1,22 @@
-# name: sbom-policy
-enable: true
-modules:
-- name: banned-licenses
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        blocklist: 
-          - GPL
-        blocklisted_limit : 199
-      path: banned-licenses.rego
+name: banned-licenses
+path: banned-licenses.rego
+
+description: "A rule for checking that the number of banned licenses for an artifact does not exceed the threshold value"
+labels:
+  - sboms
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: image
+
+with:
+  blocklist:
+    - GPL
+  blocklisted_limit : 199
 

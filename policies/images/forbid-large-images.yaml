@@ -1,18 +1,19 @@
-# name: image-policy
-enable: true
-modules:
-- name: large-image
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        max_size: 77819980
-      path: forbid-large-images.rego
+name: large-image
+path: forbid-large-images.rego
+
+description: "A rule to verify that the image size is below a threshold"
+labels:
+  - images
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: image
+
+with:
+  max_size: 77819980

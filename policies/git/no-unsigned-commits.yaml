@@ -1,18 +1,16 @@
-# name: git-policies
-enable: true
-modules:
-- name: no-unsigned-commits
-  type: verify-artifact
-  enable: true
-  level: "warning"
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: git
-    rego:
-      path: no-unsigned-commits.rego
+name: no-unsigned-commits
+level: "warning"
 
+description: "A rule to verify that all the commits are signed"
+labels:
+  - git
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: git

@@ -250,7 +250,7 @@ check("required_pull_request_reviews.require_last_push_approval", expected) := r
 
 get_result("required_pull_request_reviews.dismissal_restrictions.users") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "dismissal_restrictions", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             i.type == "User"
             j := i["login"]
@@ -263,7 +263,7 @@ check("required_pull_request_reviews.dismissal_restrictions.users", expected) :=
 
 get_result("required_pull_request_reviews.dismissal_restrictions.teams") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "dismissal_restrictions", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -276,7 +276,7 @@ check("required_pull_request_reviews.dismissal_restrictions.teams", expected) :=
 
 get_result("required_pull_request_reviews.dismissal_restrictions.apps") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "dismissal_restrictions", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -289,7 +289,7 @@ check("required_pull_request_reviews.dismissal_restrictions.apps", expected) := 
 
 get_result("required_pull_request_reviews.bypass_pull_request_allowances.users") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "bypass_pull_request_allowances", "users"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             i.type == "User"
             j := i["login"]
@@ -302,7 +302,7 @@ check("required_pull_request_reviews.bypass_pull_request_allowances.users", expe
 
 get_result("required_pull_request_reviews.bypass_pull_request_allowances.teams") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "bypass_pull_request_allowances", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -314,7 +314,7 @@ check("required_pull_request_reviews.bypass_pull_request_allowances.teams", expe
 
 get_result("required_pull_request_reviews.bypass_pull_request_allowances.apps") := r {
     t := object.get(api_info, ["required_pull_request_reviews", "bypass_pull_request_allowances", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -328,7 +328,7 @@ check("required_pull_request_reviews.bypass_pull_request_allowances.apps", expec
 
 get_result("restrictions.users") := r {
     t := object.get(api_info, ["restrictions", "users"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             i.type == "User"
             j := i["login"]
@@ -342,7 +342,7 @@ check("restrictions.users", expected) := r {
 
 get_result("restrictions.teams") := r {
     t := object.get(api_info, ["restrictions", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -354,7 +354,7 @@ check("restrictions.teams", expected) := r {
 
 get_result("restrictions.apps") := r {
     t := object.get(api_info, ["restrictions", "teams"], [])
-    r:= [ j | 
+    r:= [ j |
             i = t[_]
             j := i["slug"]
     ]
@@ -407,7 +407,7 @@ equal_arrays(a, b) := true {
 api_url := sprintf("https://api.github.com/repos/%v/%v/branches/%v/protection", [input.config.args.owner, input.config.args.repo, input.config.args.branch])
 query := {
     "method": "GET",
-    "headers": { 
+    "headers": {
     "Accept": "application/vnd.github+json",
     "Authorization": concat("",["Bearer ", input.config.args.api_token]),
     "X-GitHub-Api-Version": "2022-11-28"

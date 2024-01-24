@@ -1,21 +1,22 @@
-# name: sbom-policy
-enable: true
-modules:
-- name: blocklist-packages
-  type: verify-artifact
-  enable: true
-  input:
-    signed: false
-    format: statement-cyclonedx-json
-    context-group:
-      - env
-      - flags
-    match:
-      target_type: image
-    rego:
-      args:
-        blocklist: 
-          - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
-          - "log4j"
-        blocklisted_limit: 1
-      path: blocklist-packages.rego
+name: blocklist-packages
+path: blocklist-packages.rego
+
+description: "A rule for checking that the number of banned packages in an artifact does not exceed the threshold value"
+labels:
+  - sboms
+  - sample-policy-bundle
+initiatives:
+  - client-policy
+
+evidence:
+  filter-by:
+    - product
+  signed: false
+  format-type: cyclonedx-json
+  target_type: image
+
+with:
+  blocklist:
+    - "pkg:deb/ubuntu/tar@1.34+dfsg-1ubuntu0.1.22.04.1?arch=arm64&distro=ubuntu-22.04"
+    - "log4j"
+  blocklisted_limit: 1
