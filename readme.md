@@ -1,8 +1,8 @@
 # Sample Policies
 
-This repo includes samples of policy configuraions for Scribe's ```valint``` tool.
+This repo includes samples of policy configuraions for Scribe's `valint` tool.
 
-## Preparation
+## Quickstart
 
 1. Install `valint`:
 
@@ -10,9 +10,34 @@ This repo includes samples of policy configuraions for Scribe's ```valint``` too
     curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
     ```
 
-2. Clone this repo.
+2. Create an SBOM of a type you want to verify
 
-3. In order to run a policy, its rego file shold be referred by a valint config. Each `.yaml` represents such a config and is ready for use, but one should either replace rego path with and actual one or run `valint` from this repo's root directory.
+   ```bash
+   valint bom busybox:latest -o statement-cyclonedx-json
+   ```
+
+3. Verify the SBOM against a policy. The current catalogue will be used as a default bundle for `valint`.
+
+   ```bash
+   valint verify busybox:latest --policy policies/sboms/complete-licenses.yaml # path within a repo
+   ```
+
+   If you want to use a specific (say, early-access version or outdated) of this catalogue, use `--git-tag` flag for `valint`:
+
+   ```bash
+   valint verify busybox:latest --git-tag v1.0.0 --policy policies/sboms/complete-licenses.yaml
+   ```
+
+## Modifying Rules in This Catalogue
+
+Each rule in this catalogue consists of a `rego` script and `yaml` configuration file.
+In order to run a policy rule, its script file shold be referred by a rule config. Each `.yaml` represents such a config and is ready for use. If you modify or add your own rules, don't forget to fulfill this requirement.
+
+If you fork this repo or create your own, in order to use it you need to specify its location in `valint` flag `--bundle` either in cmd args or a `valint.yaml` config file:
+
+```bash
+valint verify busybox:latest --bundle https://github.com/scribe-security/sample-policies --policy policies/sboms/complete-licenses.yaml
+```
 
 ## Policy Catalogue
 
@@ -56,6 +81,7 @@ Each implemented policy in the table that has an example in this repo has a link
 | Verify Dependencies Integrity | Verify that specific files or folders have not been modified | src and dst [SBOM](#sboms) |
 | [Verify Github Branch Protection](policies/apis/github-branch-protection.md) | Verify that the branch protection rules are compliant to required | None |
 | [Verify GitLab Push Rules](policies/apis/gitlab-push-rules.md) | Verify that the push rules are compliant to required. GitLabs push rules overlap some of GitHub's branch protection rules | None |
+
 ### General Information
 
 Most of the policies in this repo consist of two files: a `.yaml` and a `.rego`.
@@ -74,7 +100,7 @@ valint bom ubuntu:latest -o statement-cyclonedx-json
 To verify the evidence against the policy call:
 
 ```bash
-valint verify ubuntu:latest -i statement-cyclonedx-json -c <policyname>.yaml
+valint verify ubuntu:latest -i statement-cyclonedx-json --rule policies/sboms/rule_config.yaml
 ```
 
 An example of creating signed SBOM attestation:
@@ -86,7 +112,7 @@ valint bom ubuntu:latest -o attest
 To verify the attestation against the policy call:
 
 ```bash
-valint verify ubuntu:latest -i attest -c <policyname>.yaml
+valint verify ubuntu:latest -i attest --rule policies/sboms/rule_config.yaml
 ```
 
 #### Forbid Unsigned Artifacts
@@ -184,7 +210,7 @@ valint bom ubuntu:latest -o statement
 To verify the evidence against the policy:
 
 ```bash
-valint verify ubuntu:latest -i statement -c <policyname>.yaml
+valint verify ubuntu:latest -i statement --rule policies/images/rule_config.yaml
 ```
 
 #### Restrict Shell Image Entrypoint
@@ -251,7 +277,7 @@ valint bom git:https://github.com/golang/go -o statement
 To verify the evidence against the policy:
 
 ```bash
-valint verify git:https://github.com/golang/go -i statement -c <policyname>.yaml
+valint verify git:https://github.com/golang/go -i statement --rule policies/git/rule_config.yaml
 ```
 
 #### Coding Permissions
@@ -292,7 +318,7 @@ valint slsa ubuntu:latest -o statement
 Example of verifying a SLSA statement:
 
 ```bash
-valint verify ubuntu:latest -i statement-slsa -c <policyname>.yaml
+valint verify ubuntu:latest -i statement-slsa --rule policies/slsa/rule_config.yaml
 ```
 
 #### Builder Name
@@ -395,7 +421,7 @@ valint bom ubuntu-cve.json --predicate-type http://scribesecurity.com/evidence/g
 Verify the attestation against the policy:
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic -c policies/sarif/verify-sarif.yaml
+valint verify ubuntu-cve.json -i statement-generic --rule policies/sarif/verify-sarif.yaml
 ```
 
 ###### Running Trivy On Docker Container Rootfs
@@ -549,7 +575,7 @@ valint bom my-image-dockerfile.json --predicate-type http://scribesecurity.com/e
 Verify the attestation against the policy:
 
 ```bash
-valint verify my-image-dockerfile.json -i statement-generic -c policies/sarif/report-iac-errors.yaml
+valint verify my-image-dockerfile.json -i statement-generic --rule policies/sarif/report-iac-errors.yaml
 ```
 
 The only configurable parameter in [report-iac-errors.yaml](policies/sarif/report-iac-errors.yaml) is `violations_threshold`, which is the maximum number of errors allowed in the report:
@@ -590,7 +616,7 @@ with:
 Then, run `valint verify` as usual:
 
 ```bash
-valint verify semgrep-report.sarif -i statement-generic -c policies/sarif/verify-semgrep-report.yaml
+valint verify semgrep-report.sarif -i statement-generic --rule policies/sarif/verify-semgrep-report.yaml
 ```
 
 If any violations found, the output will contain their description, including the violated rule and the file where the violation was found.
@@ -608,5 +634,5 @@ The rego policies can be written either as snippets in the yaml file, or as sepa
 An example of such a rego file is give in the [verify-sarif.rego](policies/sarif/verify-sarif.rego) file, that is consumed by the [verify-sarif.yaml](policies/sarif/verify-sarif.yaml) configuraion file. To evaluate the policy:
 
 ```bash
-valint verify ubuntu-cve.json -i statement-generic -c verify-sarif.yaml
+valint verify ubuntu-cve.json -i statement-generic --rule policies/sarif/verify-sarif.yaml
 ```
