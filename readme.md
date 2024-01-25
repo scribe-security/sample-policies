@@ -28,6 +28,22 @@ This repo includes samples of policy configuraions for Scribe's `valint` tool.
    valint verify busybox:latest --git-tag v1.0.0 --policy policies/sboms/complete-licenses.yaml
    ```
 
+### Targetless Run
+
+   All of the policies in this catalogue can also be run in "targetless" mode, meaning that the evidence will be looked up based on the product name and version. To do so, first create an SBOM providing these values:
+
+   ```bash
+   valint bom busybox:latest -o statement-cyclonedx-json --product-name busybox --product-version v1.36.1
+   ```
+
+   Then, run the policy:
+
+   ```bash
+   valint verify --policy policies/sboms/complete-licenses.yaml --product-name busybox --product-version v1.36.1
+   ```
+
+   Valint will use the latest evidence for the specified product name and version that meets the other rule requirements.
+
 ## Modifying Rules in This Catalogue
 
 Each rule in this catalogue consists of a `rego` script and `yaml` configuration file.
